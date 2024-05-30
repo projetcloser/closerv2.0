@@ -16,16 +16,16 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1' # Utilisez PHP 8.1 ou une version supérieure
+          php-version: '8.1' # Assurez-vous d'utiliser PHP 8.1 ou une version ultérieure
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2.1.5 # Utilisez la version stable
+        uses: actions/setup-node@v2
 
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
       - name: Install Dependencies
-        run: composer update --ignore-platform-reqs
+        run: composer install --ignore-platform-reqs
 
       - name: Generate key
         run: php artisan key:generate
