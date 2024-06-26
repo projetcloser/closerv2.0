@@ -1,14 +1,19 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\CompaniesApiController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/companies')->namespace('Companies')->group(function () {
-    Route::get('/', [App\Http\Controllers\Admin\CompaniesController::class, 'companies']);
-    Route::match(['get', 'post'], 'add-edit-company/{id?}', [App\Http\Controllers\Admin\CompaniesController::class, 'addEditCompany']);
-
-    Route::post('/ajax-autocomplete-search-city', [App\Http\Controllers\Admin\CompaniesController::class, 'selectCitiesSearch'])->name('companies.ajax-autocomplete-search-city');
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
+
+Route::get('/companies', [CompaniesApiController::class, 'index']); // Les routes "companies.*" de l'API
+Route::get('/companies/{id}', [CompaniesApiController::class, 'show']);
+Route::post('/companies', [CompaniesApiController::class, 'store']);
+Route::put('/companies/{id}', [CompaniesApiController::class, 'update']);
+Route::delete('/companies/{id}', [CompaniesApiController::class, 'destroy']);
