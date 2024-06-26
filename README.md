@@ -40,11 +40,16 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+<<<<<<< HEAD
 
+=======
+>>>>>>> README.md
+>>>>>>> bb97b4e (Feat[API] Companies endpoints and methods implementation)
 
 ## Postman workspace
 
 [Closer 2.0 API Collection](https://wintech-cmr.postman.co/workspace/WinTech-CMR~16c48208-229c-4a90-b775-8f2b85dc1d3e/collection/15776766-5a17d904-f506-4d61-8c38-c16df18bed01?action=share&creator=15776766)
+<<<<<<< HEAD
 
 
 
@@ -222,3 +227,5 @@ git push origin develop
 ```
 
 
+=======
+>>>>>>> bb97b4e (Feat[API] Companies endpoints and methods implementation)
