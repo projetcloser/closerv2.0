@@ -147,9 +147,9 @@ git fetch --all
 git branch -a
 ```
 
-#### Suivre et créer localement les branches distantes spécifiques
-# synthaxe :  git checkout -b nom_branch_local origin/nom_branch_distant
-# il crée votre branche locale qui correspond à la branche distante
+# Suivre et créer localement les branches distantes spécifiques
+#### synthaxe :  git checkout -b nom_branch_local origin/nom_branch_distant
+#### il crée votre branche locale qui correspond à la branche distante
 ```bash
 git checkout -b feat/map-api-automatic-addressing origin/feat/map-api-automatic-addressing
 git checkout -b feat/member-crud-api-endpoint origin/feat/member-crud-api-endpoint
