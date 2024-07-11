@@ -195,4 +195,22 @@ git commit -m "Résolution des conflits de fusion"
 git push origin develop
 ```
 
+# ajouter un branche sur le depôt distant
+#### Assurez-vous d'être sur la branche principale
+```bash
+git checkout main
+```
+#### Créez la branche develop localement
+```bash
+git checkout -b develop
+```
+#### Poussez la branche develop vers le dépôt distant
+```bash
+git push origin develop
+```
+#### Configurez la branche develop pour suivre la branche distante
+```bash
+git branch --set-upstream-to=origin/develop develop
+```
+
 
