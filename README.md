@@ -195,7 +195,7 @@ git commit -m "Résolution des conflits de fusion"
 git push origin develop
 ```
 
-# ajouter un branche sur le depôt distant
+# ajouter un branche sur le depôt distant (exemple avec la branche develop)
 #### Assurez-vous d'être sur la branche principale
 ```bash
 git checkout main
