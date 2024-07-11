@@ -18,7 +18,5 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-<<<<<<< HEAD
-=======
 myCmd.txt
->>>>>>> feat/map-api-automatic-addressing
+
