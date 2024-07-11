@@ -130,4 +130,46 @@ git rebase main
 git add fichier-conflit
 git rebase --continue
 
+#### Suivre et Créer Localement les Branches Distantes (option2 ) :
+
+# Cloner le dépôt distant
+```bash
+git clone https://github.com/votre-utilisateur/votre-repo.git
+cd votre-repo
+```
+# Récupérer toutes les branches distantes
+```bash
+git fetch --all
+```
+
+# Lister toutes les branches locales et distantes
+```bash
+git branch -a
+```
+
+# Suivre et créer localement les branches distantes spécifiques
+# synthaxe :  git checkout -b nom_branch_local origin/nom_branch_distant
+# il crée votre branche locale qui correspond à la branche distante
+```bash
+git checkout -b feat/map-api-automatic-addressing origin/feat/map-api-automatic-addressing
+git checkout -b feat/member-crud-api-endpoint origin/feat/member-crud-api-endpoint
+git checkout -b main origin/main
+```
+
+#### Notes Supplémentaires
+# Mise à Jour des Branches Locales : Pour mettre à jour vos branches locales avec les dernières 
+# modifications du dépôt distant, utilisez :
+#### Copier le code
+```bash
+git pull origin nom-de-la-branche
+```
+#### Suppression d'une Branche Locale : Si vous avez besoin de supprimer une branche locale :
+```bash
+git branch -d nom-de-la-branche
+```
+#### Suppression d'une Branche Distante : Pour supprimer une branche distante :
+```bash
+git push origin --delete nom-de-la-branche
+```
+
 
