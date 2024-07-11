@@ -212,5 +212,25 @@ git push origin develop
 ```bash
 git branch --set-upstream-to=origin/develop develop
 ```
+# Voici un exemple complet pour créer la branche develop et fusionner une autre branche en traitant les histoires non liées :
+#### Créez la branche develop localement
+git checkout -b develop
+
+#### Poussez la branche develop vers le dépôt distant
+git push origin develop
+
+#### Vérifiez que vous êtes sur la branche develop
+git checkout develop
+
+#### Fusionnez la branche feat/map-api-automatic-addressing avec l'option --allow-unrelated-histories
+git merge feat/map-api-automatic-addressing --allow-unrelated-histories
+
+#### (Optionnel) Résolvez les conflits s'il y en a
+git add .
+git commit -m "Résolution des conflits de fusion"
+
+#### Poussez les modifications vers le dépôt distant
+git push origin develop
+
 
 
