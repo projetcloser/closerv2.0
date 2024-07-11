@@ -172,22 +172,27 @@ git push origin --delete nom-de-la-branche
 ```
 
 # Comment faire des merges dans notre projet 
-# Assurez-vous d'être sur la branche develop
+#### Assurez-vous d'être sur la branche develop
+```bash
 git checkout develop
-
-# Récupérez les dernières modifications de develop
+```
+#### Récupérez les dernières modifications de develop
+```bash
 git pull origin develop
-
-# Fusionnez la branche feat/map-api-automatic-addressing dans develop
+```
+#### Fusionnez la branche feat/map-api-automatic-addressing dans develop
+```bash
 git merge feat/map-api-automatic-addressing
-
-# (Optionnel) Résolvez les conflits s'il y en a
-# Ouvrez les fichiers conflictuels, résolvez les conflits, puis
+```
+#### (Optionnel) Résolvez les conflits s'il y en a
+#### Ouvrez les fichiers conflictuels, résolvez les conflits, puis
+```bash
 git add fichier-conflit
 git commit -m "Résolution des conflits de fusion"
-
-# Poussez les modifications vers le dépôt distant
+```
+#### Poussez les modifications vers le dépôt distant
+```bash
 git push origin develop
-
+```
 
 
