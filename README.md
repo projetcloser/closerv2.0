@@ -129,7 +129,7 @@ git checkout feature/nom-fonctionnalité
 git rebase main
 git add fichier-conflit
 git rebase --continue
-
+```
 #### Suivre et Créer Localement les Branches Distantes (option2 ) :
 
 # Cloner le dépôt distant
@@ -147,7 +147,7 @@ git fetch --all
 git branch -a
 ```
 
-# Suivre et créer localement les branches distantes spécifiques
+#### Suivre et créer localement les branches distantes spécifiques
 # synthaxe :  git checkout -b nom_branch_local origin/nom_branch_distant
 # il crée votre branche locale qui correspond à la branche distante
 ```bash
@@ -156,10 +156,9 @@ git checkout -b feat/member-crud-api-endpoint origin/feat/member-crud-api-endpoi
 git checkout -b main origin/main
 ```
 
-#### Notes Supplémentaires
-# Mise à Jour des Branches Locales : Pour mettre à jour vos branches locales avec les dernières 
-# modifications du dépôt distant, utilisez :
-#### Copier le code
+# Notes Supplémentaires
+#### Mise à Jour des Branches Locales : Pour mettre à jour vos branches locales avec les dernières 
+#### modifications du dépôt distant, utilisez :
 ```bash
 git pull origin nom-de-la-branche
 ```
