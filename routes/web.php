@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
+use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
+use App\Http\Controllers\API\StampApiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,8 +22,23 @@ Route::put('/companies/{id}', [CompaniesApiController::class, 'update']);
 Route::delete('/companies/{id}', [CompaniesApiController::class, 'destroy']);
 
 
-Route::get('/members', [MembersApiController::class, 'index']); // Les routes "members.*" de l'API
-Route::get('/members/{id}', [MembersApiController::class, 'show']);
-Route::post('/members', [MembersApiController::class, 'store']);
-Route::put('/members/{id}', [MembersApiController::class, 'update']);
-Route::delete('/members/{id}', [MembersApiController::class, 'destroy']);
+
+
+Route::prefix('/members')->namespace('Members')->group(function () {
+    Route::get('/', [MembersApiController::class, 'index']); // Les routes "members.*" de l'API
+    Route::get('member/{id}', [MembersApiController::class, 'show']);
+    Route::post('member/', [MembersApiController::class, 'store']);
+    Route::put('member/{id}', [MembersApiController::class, 'update']);
+    Route::delete('member/{id}', [MembersApiController::class, 'destroy']);
+    Route::get('academic-states', [MemberAcademicStatesApiController::class, 'index']);
+    Route::get('academic-states/{id}', [MemberAcademicStatesApiController::class, 'show']);
+    Route::post('academic-states', [MemberAcademicStatesApiController::class, 'store']);
+    Route::put('academic-states/{id}', [MemberAcademicStatesApiController::class, 'update']);
+    Route::delete('academic-states/{id}', [MemberAcademicStatesApiController::class, 'destroy']);
+});
+
+Route::get('stamps', [StampApiController::class, 'index']);
+Route::get('stamps/{id}', [StampApiController::class, 'show']);
+Route::post('stamps', [StampApiController::class, 'store']);
+Route::put('stamps/{id}', [StampApiController::class, 'update']);
+Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);

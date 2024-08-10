@@ -45,3 +45,7 @@ If you have run out of energy or time for your project, put a note at the top of
 ## Postman workspace
 
 [Closer 2.0 API Collection](https://wintech-cmr.postman.co/workspace/WinTech-CMR~16c48208-229c-4a90-b775-8f2b85dc1d3e/collection/15776766-5a17d904-f506-4d61-8c38-c16df18bed01?action=share&creator=15776766)
+
+## Avatar picture
+
+The avatar picture or profil picture should be convert to base64 before sent to the server, a tutorial which show how to convert png file to base64 using PHP can be reach through this link : [GeeksforGeeks](https://www.geeksforgeeks.org/how-to-convert-an-image-to-base64-encoding-in-php/)
