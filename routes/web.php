@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\PersonnelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
@@ -15,6 +16,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//Companies
 Route::get('/companies', [CompaniesApiController::class, 'index']); // Les routes "companies.*" de l'API
 Route::get('/companies/{id}', [CompaniesApiController::class, 'show']);
 Route::post('/companies', [CompaniesApiController::class, 'store']);
@@ -23,7 +25,7 @@ Route::delete('/companies/{id}', [CompaniesApiController::class, 'destroy']);
 
 
 
-
+//Members
 Route::prefix('/members')->namespace('Members')->group(function () {
     Route::get('/', [MembersApiController::class, 'index']); // Les routes "members.*" de l'API
     Route::get('member/{id}', [MembersApiController::class, 'show']);
@@ -37,8 +39,27 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::delete('academic-states/{id}', [MemberAcademicStatesApiController::class, 'destroy']);
 });
 
+// Stamps
 Route::get('stamps', [StampApiController::class, 'index']);
 Route::get('stamps/{id}', [StampApiController::class, 'show']);
 Route::post('stamps', [StampApiController::class, 'store']);
 Route::put('stamps/{id}', [StampApiController::class, 'update']);
 Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);
+
+// Personnel
+Route::prefix('personnels')->group(function () {
+    // Récupérer tous les personnels
+    Route::get('/', [PersonnelController::class, 'index']);
+
+    // Récupérer un personnel spécifique
+    Route::get('personnel/{id}', [PersonnelController::class, 'show']);
+
+    // Créer un nouveau personnel
+    Route::post('personnel/', [PersonnelController::class, 'store']);
+
+    // Mettre à jour un personnel spécifique
+    Route::put('personnel/{id}', [PersonnelController::class, 'update']);
+
+    // Supprimer un personnel spécifique
+    Route::delete('personnel/{id}', [PersonnelController::class, 'destroy']);
+});
