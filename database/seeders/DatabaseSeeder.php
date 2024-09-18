@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\API\CashflowController;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MemberAcademicStatesSeeder::class);
         $this->call(StampsSeeder::class);
         $this->call(PersonnelSeeder::class);
+        $this->call(CashflowSeeder::class);
+        $this->call(CotisationSeeder::class);
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
