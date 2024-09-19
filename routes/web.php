@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CashflowController;
 use App\Http\Controllers\API\CotisationController;
+use App\Http\Controllers\API\PersonalCertificateController;
 use App\Http\Controllers\API\PersonnelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -106,3 +107,24 @@ Route::prefix('cotisations')->group(function () {
     Route::delete('/{id}', [CotisationController::class, 'destroy']);
 });
 
+// Attestion personnel
+
+// Routes pour l'entité PersonalCertificate
+
+// Cotisaiton
+Route::prefix('personal-certificates')->group(function () {
+    // Récupérer toutes les cotisations différentes de 1 (open_close)
+    Route::get('/', [PersonalCertificateController::class, 'index']);
+
+    // Récupérer une cotisation spécifique
+    Route::get('/{id}', [PersonalCertificateController::class, 'show']);
+
+    // Créer une nouvelle cotisation
+    Route::post('/', [PersonalCertificateController::class, 'store']);
+
+    // Mettre à jour une cotisation spécifique
+    Route::put('/{id}', [PersonalCertificateController::class, 'update']);
+
+    // "Supprimer" une cotisation spécifique (mettre open_close à 1)
+    Route::delete('/{id}', [PersonalCertificateController::class, 'destroy']);
+});

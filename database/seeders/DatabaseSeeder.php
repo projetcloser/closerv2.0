@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PersonnelSeeder::class);
         $this->call(CashflowSeeder::class);
         $this->call(CotisationSeeder::class);
+        $this->call(PersonalCertificateSeeder::class);
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',

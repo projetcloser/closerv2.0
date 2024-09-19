@@ -32,8 +32,7 @@ class CashflowController extends Controller
             'code' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'personnel_id' => 'required|exists:personnels,id',
-            'balance' => 'required|integer',
-            'open_close' => 'required|boolean',
+            'balance' => 'required|integer'
         ]);
 
         $cashflow = Cashflow::create($request->all());
@@ -53,8 +52,7 @@ class CashflowController extends Controller
             'code' => 'sometimes|required|string|max:255',
             'name' => 'sometimes|required|string|max:255',
             'personnel_id' => 'sometimes|required|exists:personnels,id',
-            'balance' => 'sometimes|required|integer',
-            'open_close' => 'sometimes|required|boolean',
+            'balance' => 'sometimes|required|integer'
         ]);
 
         $cashflow->update($request->all());
