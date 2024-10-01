@@ -19,7 +19,7 @@ class CompaniesSeeder extends Seeder
         );
 
         $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 2; $i++) {
             $cityId = rand(1, 22944);
             $typeIndex = array_rand($strings);
             Company::create([
@@ -31,7 +31,8 @@ class CompaniesSeeder extends Seeder
                 'country_id' => 1,
                 'city_id' => $cityId,
                 'contact_person' => $faker->name,
-                'contact_person_phone' => $faker->phoneNumber
+                'contact_person_phone' => $faker->phoneNumber,
+                'neighborhood' => $faker->address
             ]);
         }
     }

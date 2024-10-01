@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
+use App\Http\Controllers\API\CompanyAttestationApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
 use App\Http\Controllers\API\StampApiController;
@@ -15,11 +16,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/companies', [CompaniesApiController::class, 'index']); // Les routes "companies.*" de l'API
-Route::get('/companies/{id}', [CompaniesApiController::class, 'show']);
-Route::post('/companies', [CompaniesApiController::class, 'store']);
-Route::put('/companies/{id}', [CompaniesApiController::class, 'update']);
-Route::delete('/companies/{id}', [CompaniesApiController::class, 'destroy']);
+Route::prefix('/companies')->namespace('Companies')->group(function () {
+    Route::get('/', [CompaniesApiController::class, 'index']); // Les routes "companies.*" de l'API
+    Route::get('/company/{id}', [CompaniesApiController::class, 'show']);
+    Route::post('/company', [CompaniesApiController::class, 'store']);
+    Route::put('/company/{id}', [CompaniesApiController::class, 'update']);
+    Route::delete('/company/{id}', [CompaniesApiController::class, 'destroy']);
+    Route::get('attestations', [CompanyAttestationApiController::class, 'index']);
+    Route::get('attestations/{id}', [CompanyAttestationApiController::class, 'show']);
+    Route::post('attestations', [CompanyAttestationApiController::class, 'store']);
+    Route::put('attestations/{id}', [CompanyAttestationApiController::class, 'update']);
+    Route::delete('attestations/{id}', [CompanyAttestationApiController::class, 'destroy']);
+});
 
 
 

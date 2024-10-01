@@ -29,6 +29,10 @@ class MembersApiController extends Controller
         $member->email = $request->email;
         $member->order_number = $request->order_number;
         $member->phone = $request->phone;
+        $member->phone_2 = $request->phone_2;
+        $member->folder = $request->folder;
+        $member->picture = $request->picture;
+        $member->debt = $request->debt;
 
         $member->save();
         return response()->json([
@@ -64,6 +68,10 @@ class MembersApiController extends Controller
             $member->email = is_null($request->email) ? $member->email : $request->email;
             $member->order_number = is_null($request->order_number) ? $member->order_number : $request->order_number;
             $member->phone = is_null($request->phone) ? $member->phone : $request->phone;
+            $member->phone_2 = is_null($request->phone_2) ? $member->phone_2 : $request->phone_2;
+            $member->folder = is_null($request->folder) ? $member->folder : $request->folder;
+            $member->picture = is_null($request->picture) ? $member->picture : $request->picture;
+            $member->debt = is_null($request->debt) ? $member->debt : $request->debt;
 
             $member->save();
 

@@ -34,6 +34,7 @@ class CompaniesApiController extends Controller
         $company->contact_person = $request->contact_person;
         $company->contact_person_phone = $request->contact_person_phone;
         $company->neighborhood = $request->neighborhood;
+        $company->company_type = $request->company_type;
 
         $company->save();
 
@@ -75,6 +76,7 @@ class CompaniesApiController extends Controller
             $company->contact_person = is_null($request->contact_person) ? $company->contact_person : $request->contact_person;
             $company->contact_person_phone = is_null($request->contact_person_phone) ? $company->contact_person_phone : $request->contact_person_phone;
             $company->neighborhood = is_null($request->neighborhood) ? $company->neighborhood : $request->neighborhood;
+            $company->company_type = is_null($request->company_type) ? $company->company_type : $request->company_type;
 
             $company->save();
 
