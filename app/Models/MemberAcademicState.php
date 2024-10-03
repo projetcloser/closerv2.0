@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class MemberAcademicState extends Model
 {
     use HasFactory;
-    protected $table = 'companies';
-    protected $fillable = ['social_reason', 'author', 'phone', 'nui', 'type', 'country_id', 'city_id', 'contact_person', 'contact_person_phone', 'company_type', 'neighbourhood'];
+    protected $table = 'member_academic_states';
+    protected $fillable = ['member_id', 'lastname', 'firstname', 'username', 'email', 'birthday', 'gender', 'address', 'country_id', 'city_id', 'neighborhood', 'phone'];
 
     public function country()
     {

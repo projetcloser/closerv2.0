@@ -21,7 +21,11 @@ class MembersSeeder extends Seeder
                 'firstname' => $faker->firstName,
                 'email' => $faker->email,
                 'order_number' => $faker->imei,
-                'phone' => $faker->phoneNumber
+                'phone' => $faker->phoneNumber,
+                'phone_2' => $faker->phoneNumber,
+                'folder' => $faker->filePath("tmp/file.pdf"),
+                'picture' => $faker->linuxPlatformToken,
+                'debt' => $faker->numberBetween(1000, 99999),
             ]);
         }
     }
