@@ -164,6 +164,21 @@
 
                     <footer class="py-16 text-center text-sm text-black dark:text-white/70">
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                        </br>
+                        //{{ csrf_token() }}//
+                        </br>
+                        <form action="http://127.0.0.1:8000/cashflows" method="POST">
+                            @csrf
+                            <label for="nom">Entrez votre nom : </label>
+                            <input type="text" name="code" value="CA001">
+                            <input type="text" name="name" value="Initial2 Cashflow">
+                            <input type="number" name="balance" value="1000">
+                            <input type="number" name="personnel_id" value="1">
+
+                            <input type="submit" value="Envoyer !">
+                        </form>
+
+
                     </footer>
                 </div>
             </div>

@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\API\CashflowController;
+use App\Http\Controllers\API\CotisationController;
+use App\Http\Controllers\API\PersonalCertificateController;
+use App\Http\Controllers\API\PersonnelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
@@ -45,8 +49,89 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::delete('academic-states/{id}', [MemberAcademicStatesApiController::class, 'destroy']);
 });
 
+// Stamps
 Route::get('stamps', [StampApiController::class, 'index']);
 Route::get('stamps/{id}', [StampApiController::class, 'show']);
 Route::post('stamps', [StampApiController::class, 'store']);
 Route::put('stamps/{id}', [StampApiController::class, 'update']);
 Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);
+
+// Personnel
+Route::prefix('personnels')->group(function () {
+    // Récupérer tous les personnels
+    Route::get('/', [PersonnelController::class, 'index']);
+
+    // Récupérer un personnel spécifique
+    Route::get('personnel/{id}', [PersonnelController::class, 'show']);
+
+    // Créer un nouveau personnel
+    Route::post('personnel/', [PersonnelController::class, 'store']);
+
+    // Mettre à jour un personnel spécifique
+    Route::put('personnel/{id}', [PersonnelController::class, 'update']);
+
+    // Supprimer un personnel spécifique
+    Route::delete('personnel/{id}', [PersonnelController::class, 'destroy']);
+});
+
+
+//Caisse
+
+
+Route::prefix('cashflows')->group(function () {
+    // Récupérer tous les cashflows différents de 1 (open_close)
+    Route::get('/', [CashflowController::class, 'index']);
+
+    // Récupérer un cashflow spécifique
+    Route::get('/{id}', [CashflowController::class, 'show']);
+
+    // Créer un nouveau cashflow
+    Route::post('/', [CashflowController::class, 'store']);
+
+    // Mettre à jour un cashflow spécifique
+    Route::put('/{id}', [CashflowController::class, 'update']);
+
+    // "Supprimer" un cashflow spécifique (mettre open_close à 1)
+    Route::delete('/{id}', [CashflowController::class, 'destroy']);
+});
+
+
+// Cotisaiton
+Route::prefix('cotisations')->group(function () {
+    // Récupérer toutes les cotisations différentes de 1 (open_close)
+    Route::get('/', [CotisationController::class, 'index']);
+
+    // Récupérer une cotisation spécifique
+    Route::get('/{id}', [CotisationController::class, 'show']);
+
+    // Créer une nouvelle cotisation
+    Route::post('/', [CotisationController::class, 'store']);
+
+    // Mettre à jour une cotisation spécifique
+    Route::put('/{id}', [CotisationController::class, 'update']);
+
+    // "Supprimer" une cotisation spécifique (mettre open_close à 1)
+    Route::delete('/{id}', [CotisationController::class, 'destroy']);
+});
+
+// Attestion personnel
+
+// Routes pour l'entité PersonalCertificate
+
+// Cotisaiton
+Route::prefix('personal-certificates')->group(function () {
+    // Récupérer toutes les cotisations différentes de 1 (open_close)
+    Route::get('/', [PersonalCertificateController::class, 'index']);
+
+    // Récupérer une cotisation spécifique
+    Route::get('/{id}', [PersonalCertificateController::class, 'show']);
+
+    // Créer une nouvelle cotisation
+    Route::post('/', [PersonalCertificateController::class, 'store']);
+
+    // Mettre à jour une cotisation spécifique
+    Route::put('/{id}', [PersonalCertificateController::class, 'update']);
+
+    // "Supprimer" une cotisation spécifique (mettre open_close à 1)
+    Route::delete('/{id}', [PersonalCertificateController::class, 'destroy']);
+});
