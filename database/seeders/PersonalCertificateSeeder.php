@@ -23,16 +23,20 @@ class PersonalCertificateSeeder extends Seeder
         $month = now()->format('m');
         $year = now()->format('y');
 
-        PersonalCertificate::create([
-            'cashflow_id' => $cashflow->id,
-            'member_id' => $member->id,
-            'personnel_id' => $personnel->id,
-            'ref_dem_part' => 'N° ' . str_pad($numeroref, 4, '0', STR_PAD_LEFT) . ' / ' . $month . ' /Pdt/SG/ONIGC/' . $year,
-            'amount' => 0,
-            'status' => 'envoyer',
-            'author' => 'John Doe',
-            'open_close' => 0,
-            'date_certification' => now(),
-        ]);
+        $faker = \Faker\Factory::create();
+        for ($i = 0; $i < 3; $i++) {
+            PersonalCertificate::create([
+                'cashflow_id' => $cashflow->id,
+                'member_id' => $member->id,
+                'personnel_id' => $personnel->id,
+                'ref_dem_part' => 'N° ' . str_pad($numeroref, 4, '0', STR_PAD_LEFT) . ' / ' . $month . ' /Pdt/SG/ONIGC/' . $year,
+                'amount' => 0,
+                'status' => 'envoyer',
+                'author' => 'John Doe',
+                'open_close' => 0,
+                'date_certification' => now(),
+                'object' => $faker->text
+            ]);
+        }
     }
 }
