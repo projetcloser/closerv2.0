@@ -5,6 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/*{
+    "member_id": [INT],
+    "receipt_number": [STRING],
+    "step": [INT],
+    "author": [STRING],
+    "city_id": [INT],
+    "phone": [STRING],
+    "year": [INT]
+}*/
+
 class Stamp extends Model
 {
     use HasFactory;

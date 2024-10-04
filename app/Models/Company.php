@@ -5,6 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+/*{
+    "company_name": [STRING],
+    "author": [STRING],
+    "company_type": [PUBLIC | PRIVEE],
+    "email": [STRING],
+    "nui": [STRING],
+    "country_id": [INT],
+    "city_id": [INT],
+    "phone": [STRING],
+    "contact_person": [STRING],
+    "contact_person_phone": [STRING],
+    "neighborhood": [STRING]
+}
+*/
+
 class Company extends Model
 {
     use HasFactory;

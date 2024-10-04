@@ -24,7 +24,7 @@ class MembersSeeder extends Seeder
                 'phone' => $faker->phoneNumber,
                 'phone_2' => $faker->phoneNumber,
                 'folder' => $faker->filePath("tmp/file.pdf"),
-                'picture' => $faker->linuxPlatformToken,
+                'picture' => $faker->filePath("tmp/pic.png"),
                 'debt' => $faker->numberBetween(1000, 99999),
             ]);
         }
