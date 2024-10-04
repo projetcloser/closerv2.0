@@ -13,27 +13,39 @@ class PersonnelSeeder extends Seeder
      */
     public function run()
     {
-        Personnel::create([
-            'statut' => 'Active',
-            'lastname' => 'Doe',
-            'firstname' => 'John',
-            'email' => 'johndoe@example.com',
-            'date_card_validity' => '2025-12-31',
-            'phone' => '123456789',
-            'father_name' => 'John Doe Sr.',
-            'father_phone' => '987654321',
-            'mother_name' => 'Jane Doe',
-            'birthday' => '1990-01-01',
-            'place_birth' => 'Yaoundé',
-            'profession' => 'Doctor',
-            'genre' => 'Male',
-            'contract_type' => 'Permanent',
-            'marital_status' => 'Married',
-            'position' => 'Head of Department',
-            'num_children' => 2,
-            'open_close' => 0,
-            'city_id' => 1,
-            'country_id' => 1,
-        ]);
+        $strings = array(
+            'Male',
+            'Female',
+        );
+
+        $faker = \Faker\Factory::create();
+        for ($i = 0; $i < 10; $i++) {
+            $typeIndex = array_rand($strings);
+            Personnel::create([
+                'statut' => 'Active',
+                'lastname' => $faker->lastName,
+                'firstname' => $faker->firstName,
+                'email' => $faker->email,
+                'date_card_validity' => '2025-12-31',
+                'phone' => $faker->phoneNumber,
+                'phone_2' => $faker->phoneNumber,
+                'father_name' => $faker->firstNameMale,
+                'father_phone' => $faker->lastName . ' ' . $faker->phoneNumber,
+                'mother_name' => $faker->lastName . ' ' . $faker->firstNameMale,
+                'birthday' => '1990-01-01',
+                'place_birth' => 'Yaoundé',
+                'profession' => 'Doctor',
+                'genre' => $strings[$typeIndex],
+                'contract_type' => 'Permanent',
+                'marital_status' => 'Married',
+                'position' => 'Head of Department',
+                'num_children' => 2,
+                'open_close' => 0,
+                'city_id' => 1,
+                'country_id' => 1,
+                'neighbourhood' => $faker->address,
+                'attachment_file' => $faker->filePath("tmp/file.pdf")
+            ]);
+        }
     }
 }
