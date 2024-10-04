@@ -5,6 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/*{
+    "cashflow_id": [INT],
+    "member_id": [INT],
+    "personnel_id": [INT],
+    "ref_dem_part": [STRING],
+    "amount": [INT],
+    "status": ["envoyer"],
+    "author": [STRING],
+    "date_certification": [STRING],
+    "object": [STRING]
+} */
+
 class PersonalCertificate extends Model
 {
     use HasFactory;
@@ -19,6 +31,7 @@ class PersonalCertificate extends Model
         'personnel_id',
         'author',
         'open_close',
+        'object'
     ];
 
     protected $casts = [
