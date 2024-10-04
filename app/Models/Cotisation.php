@@ -5,6 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/*{
+    "cashflow_id": [INT],
+    "pay_year": [STRING],
+    "ref_ing_cost": [STRING],
+    "member_id": [INT],
+    "amount": [INT],
+    "pay": [INT],
+    "author": [STRING],
+    "personnel_id": [INT]
+} */
+
 class Cotisation extends Model
 {
     use HasFactory;

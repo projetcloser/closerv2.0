@@ -82,7 +82,7 @@ class CompaniesApiController extends Controller
 
             return response()->json([
                 "message" => "Company updated."
-            ], 404);
+            ], 201);
         } else {
             return response()->json([
                 "message" => "Company not found"

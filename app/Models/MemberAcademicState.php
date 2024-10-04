@@ -5,6 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/*
+{
+    "member_id": [INT],
+    "lastname": [STRING],
+    "firstname": [STRING],
+    "username": [STRING],
+    "email": [STRING],
+    "birthday": [STRING],
+    "gender": ['male', 'female'],
+    "address": [STRING],
+    "country_id": [INT],
+    "city_id": [INT],
+    "neighborhood": [STRING],
+    "phone": [STRING],
+    "biography": [STRING],
+    "avatar64": [STRING]
+}
+
+*/
+
 class MemberAcademicState extends Model
 {
     use HasFactory;
