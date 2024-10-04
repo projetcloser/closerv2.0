@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
 use App\Http\Controllers\API\CompanyAttestationApiController;
+use App\Http\Controllers\API\EventsApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
 use App\Http\Controllers\API\StampApiController;
@@ -118,7 +119,7 @@ Route::prefix('cotisations')->group(function () {
 
 // Routes pour l'entité PersonalCertificate
 
-// Cotisaiton
+// Cotisation
 Route::prefix('personal-certificates')->group(function () {
     // Récupérer toutes les cotisations différentes de 1 (open_close)
     Route::get('/', [PersonalCertificateController::class, 'index']);
@@ -134,4 +135,21 @@ Route::prefix('personal-certificates')->group(function () {
 
     // "Supprimer" une cotisation spécifique (mettre open_close à 1)
     Route::delete('/{id}', [PersonalCertificateController::class, 'destroy']);
+});
+
+// Evenement
+Route::prefix('events')->group(function () {
+    Route::get('/', [EventsApiController::class, 'index']);
+
+    // Récupérer un event spécifique
+    Route::get('/{id}', [EventsApiController::class, 'show']);
+
+    // Créer un nouvel event
+    Route::post('/', [EventsApiController::class, 'store']);
+
+    // Mettre à jour un event spécifique
+    Route::put('/{id}', [EventsApiController::class, 'update']);
+
+    // "Supprimer" un event spécifique (mettre status à 0)
+    Route::delete('/{id}', [EventsApiController::class, 'destroy']);
 });
