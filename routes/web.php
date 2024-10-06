@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CashflowController;
 use App\Http\Controllers\API\CotisationController;
 use App\Http\Controllers\API\PersonalCertificateController;
@@ -153,3 +154,12 @@ Route::prefix('events')->group(function () {
     // "Supprimer" un event spécifique (mettre status à 0)
     Route::delete('/{id}', [EventsApiController::class, 'destroy']);
 });
+
+//Auth
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/home', function () {
+    return view('home', ['message' => session('message')]);
+})->middleware('auth')->name('home');
