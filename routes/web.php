@@ -13,6 +13,7 @@ use App\Http\Controllers\API\CountriesApiController;
 use App\Http\Controllers\API\EventsApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
+use App\Http\Controllers\API\StaffApiController;
 use App\Http\Controllers\API\StampApiController;
 
 Route::get('/', function () {
@@ -60,21 +61,21 @@ Route::put('stamps/{id}', [StampApiController::class, 'update']);
 Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);
 
 // Personnel
-Route::prefix('personnels')->group(function () {
+Route::prefix('staff')->group(function () {
     // Récupérer tous les personnels
-    Route::get('/', [PersonnelController::class, 'index']);
+    Route::get('/', [StaffApiController::class, 'index']);
 
     // Récupérer un personnel spécifique
-    Route::get('personnel/{id}', [PersonnelController::class, 'show']);
+    Route::get('/{id}', [StaffApiController::class, 'show']);
 
     // Créer un nouveau personnel
-    Route::post('personnel/', [PersonnelController::class, 'store']);
+    Route::post('/', [StaffApiController::class, 'store']);
 
     // Mettre à jour un personnel spécifique
-    Route::put('personnel/{id}', [PersonnelController::class, 'update']);
+    Route::put('/{id}', [StaffApiController::class, 'update']);
 
     // Supprimer un personnel spécifique
-    Route::delete('personnel/{id}', [PersonnelController::class, 'destroy']);
+    Route::delete('/{id}', [StaffApiController::class, 'destroy']);
 });
 
 
