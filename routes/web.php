@@ -11,6 +11,7 @@ use App\Http\Controllers\API\CompaniesApiController;
 use App\Http\Controllers\API\CompanyAttestationApiController;
 use App\Http\Controllers\API\CountriesApiController;
 use App\Http\Controllers\API\EventsApiController;
+use App\Http\Controllers\API\FinesApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
 use App\Http\Controllers\API\StaffApiController;
@@ -188,4 +189,23 @@ Route::prefix('announcements')->group(function () {
 
     // "Supprimer" une annonce spécifique (mettre status à 0)
     Route::delete('/{id}', [AnnouncementsApiController::class, 'destroy']);
+});
+
+
+// Fine
+Route::prefix('fines')->group(function () {
+    // Amendes
+    Route::get('/', [FinesApiController::class, 'index']);
+
+    // Récupérer une amende spécifique
+    Route::get('/{id}', [FinesApiController::class, 'show']);
+
+    // Créer une nouvelle amende
+    Route::post('/', [FinesApiController::class, 'store']);
+
+    // Mettre à jour une amende spécifique
+    Route::put('/{id}', [FinesApiController::class, 'update']);
+
+    // "Supprimer" une amende spécifique (mettre status à 0)
+    Route::delete('/{id}', [FinesApiController::class, 'destroy']);
 });
