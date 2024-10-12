@@ -3,22 +3,22 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Personnel;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 
-class PersonnelController extends Controller
+class StaffApiController extends Controller
 {
     // Afficher la liste des personnels où open_close != 1
     public function index()
     {
-        $personnels = Personnel::where('open_close', '!=', 1)->get();
+        $personnels = Staff::where('open_close', '!=', 1)->get();
         return response()->json($personnels);
     }
 
     // Afficher un personnel spécifique où open_close != 1
     public function show($id)
     {
-        $personnel = Personnel::where('id', $id)->where('open_close', '!=', 1)->first();
+        $personnel = Staff::where('id', $id)->where('open_close', '!=', 1)->first();
 
         if (!$personnel) {
             return response()->json(['message' => 'Personnel not found or closed'], 404);
@@ -39,7 +39,7 @@ class PersonnelController extends Controller
             // Ajouter d'autres règles de validation pour les autres champs
         ]);
 
-        $personnel = Personnel::create($validatedData);
+        $personnel = Staff::create($validatedData);
 
         return response()->json($personnel, 201);
     }
@@ -47,7 +47,7 @@ class PersonnelController extends Controller
     // Mettre à jour un personnel
     public function update(Request $request, $id)
     {
-        $personnel = Personnel::find($id);
+        $personnel = Staff::find($id);
 
         if (!$personnel) {
             return response()->json(['message' => 'Personnel not found'], 404);
@@ -70,7 +70,7 @@ class PersonnelController extends Controller
     // "Supprimer" un personnel en mettant à jour le champ open_close à 1
     public function destroy($id)
     {
-        $personnel = Personnel::find($id);
+        $personnel = Staff::find($id);
 
         if (!$personnel) {
             return response()->json(['message' => 'Personnel not found'], 404);
