@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cotisations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cashflow_id')->constrained('cashflows')->noActionOnDelete();;
+            $table->foreignId('cashflow_id')->constrained('cashflows')->noActionOnDelete();
             $table->date('pay_year');
             $table->string('ref_ing_cost');
             $table->foreignId('member_id')->constrained('members')->noActionOnDelete();

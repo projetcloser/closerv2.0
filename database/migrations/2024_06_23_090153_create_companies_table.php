@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('year');
             $table->foreignId('company_id')->index();
             $table->string('motif')->nullable();
-            $table->tinyInteger('status')->default(1); //1: non payé, 2: initier, 3: payé
+            $table->tinyInteger('status')->default(1)->comment("1: non payé, 2: initier, 3: payé");
             $table->string('author')->nullable();
             $table->boolean('open_close')->default(0);
             $table->timestamps();

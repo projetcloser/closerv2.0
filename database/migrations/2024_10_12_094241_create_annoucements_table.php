@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stamps', function (Blueprint $table) {
+        Schema::create('annoucements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('member_id')->index();
-            $table->string('receipt_number');
-            $table->tinyInteger('status')->default(1)->comment("1: en cours de fabrication, 2: disponible, 3: envoyée, 4: livrée");
-            $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
-            $table->string('phone')->nullable();
-            $table->string('year')->nullable();
+            $table->string('object');
+            $table->string('body');
             $table->string('author');
+            $table->string('status')->default(0)->comment("O - non lu, 1 - lu");
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stamps');
+        Schema::dropIfExists('annoucements');
     }
 };
