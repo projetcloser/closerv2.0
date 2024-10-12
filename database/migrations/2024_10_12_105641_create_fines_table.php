@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('annoucements', function (Blueprint $table) {
+        Schema::create('fines', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('member_id')->constrained('members')->noActionOnDelete();
+            $table->string('fine_date')->default(now());
             $table->string('object');
-            $table->string('body');
+            $table->string('amount');
             $table->string('author');
-            $table->string('attachment')->nullable();
-            $table->tinyInteger('status')->default(0)->comment("O - non lu, 1 - lu");
+            $table->tinyInteger('status')->default(0)->comment("O - non payée, 1 - payée");
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('annoucements');
+        Schema::dropIfExists('fines');
     }
 };

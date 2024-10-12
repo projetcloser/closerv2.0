@@ -34,7 +34,7 @@ return new class extends Migration
             $table->foreignId('country_id')->constrained('countries')->noActionOnDelete();
             $table->string('neighburhood')->nullable();
             $table->string('attachment_file')->nullable();
-            $table->string('statut')->comment("1 - ACTIF (default) et 0 - ANCIEN");
+            $table->tinyInteger('statut')->comment("1 - ACTIF (default) et 0 - ANCIEN");
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->foreignId('staff_id')->constrained('staff')->noActionOnDelete();
             $table->string('ref_dem_part');
             $table->integer('amount')->default(0);
-            $table->string('status')->default(1); //1 - non payé (default), 2 - initier et 3 - payé
+            $table->tinyInteger('status')->default(1)->comment("1 - non payé (default), 2 - initier et 3 - payé");
             $table->date('certification_date')->default(now());
             $table->string('object');
             $table->string('author');
