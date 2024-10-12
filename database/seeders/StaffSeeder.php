@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Personnel;
+use App\Models\Staff;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PersonnelSeeder extends Seeder
+class StaffSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,7 +21,7 @@ class PersonnelSeeder extends Seeder
         $faker = \Faker\Factory::create();
         for ($i = 0; $i < 10; $i++) {
             $typeIndex = array_rand($strings);
-            Personnel::create([
+            Staff::create([
                 'statut' => 'Active',
                 'lastname' => $faker->lastName,
                 'firstname' => $faker->firstName,

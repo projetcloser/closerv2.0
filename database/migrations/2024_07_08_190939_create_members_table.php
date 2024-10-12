@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('folder')->nullable();
             $table->string('picture')->nullable();
             $table->string('debt')->default(0);
-            $table->tinyInteger('status')->default(1); //1 - actif et 2 - décédé
+            $table->tinyInteger('status')->default(1)->comment("1 - actif et 2 - décédé");
             $table->string('author')->nullable();
             $table->boolean('open_close')->default(0);
             $table->timestamps();

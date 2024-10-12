@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\AnnouncementsApiController;
 use App\Http\Controllers\API\CashflowController;
 use App\Http\Controllers\API\CitiesApiController;
 use App\Http\Controllers\API\CotisationController;
 use App\Http\Controllers\API\PersonalCertificateController;
-use App\Http\Controllers\API\PersonnelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
@@ -169,4 +169,23 @@ Route::prefix('location')->group(function () {
 
     //Cities list
     Route::get('/cities', [CitiesApiController::class, 'index']);
+});
+
+
+// Announcements
+Route::prefix('announcements')->group(function () {
+    // Annonces
+    Route::get('/', [AnnouncementsApiController::class, 'index']);
+
+    // Récupérer une annonce spécifique
+    Route::get('/{id}', [AnnouncementsApiController::class, 'show']);
+
+    // Créer une nouvelle annonce
+    Route::post('/', [AnnouncementsApiController::class, 'store']);
+
+    // Mettre à jour une annonce spécifique
+    Route::put('/{id}', [AnnouncementsApiController::class, 'update']);
+
+    // "Supprimer" une annonce spécifique (mettre status à 0)
+    Route::delete('/{id}', [AnnouncementsApiController::class, 'destroy']);
 });

@@ -9,11 +9,10 @@ class Cashflow extends Model
 {
     use HasFactory;
     protected $table = 'cashflows';
-    protected $fillable = ['code', 'name', 'personnel_id', 'balance',  'open_close'];
+    protected $fillable = ['code', 'name', 'staff_id', 'balance',  'open_close'];
 
-    public function personnel()
+    public function staff()
     {
-        return $this->belongsTo('App\Models\Personnel', 'personnel_id')->select('id', 'lastname', 'firstname');
+        return $this->belongsTo('App\Models\Staff', 'staff_id')->select('id', 'lastname', 'firstname');
     }
-
 }
