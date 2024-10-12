@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CashflowController;
+use App\Http\Controllers\API\CitiesApiController;
 use App\Http\Controllers\API\CotisationController;
 use App\Http\Controllers\API\PersonalCertificateController;
 use App\Http\Controllers\API\PersonnelController;
@@ -8,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
 use App\Http\Controllers\API\CompanyAttestationApiController;
+use App\Http\Controllers\API\CountriesApiController;
 use App\Http\Controllers\API\EventsApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
@@ -152,4 +154,18 @@ Route::prefix('events')->group(function () {
 
     // "Supprimer" un event spécifique (mettre status à 0)
     Route::delete('/{id}', [EventsApiController::class, 'destroy']);
+});
+
+
+// Location
+Route::prefix('location')->group(function () {
+    //Countries list
+    Route::get('/countries', [CountriesApiController::class, 'index']);
+
+    //Cities list from a country
+    Route::get('/countries/cities/{id}', [CountriesApiController::class, 'showCities']);
+
+
+    //Cities list
+    Route::get('/cities', [CitiesApiController::class, 'index']);
 });
