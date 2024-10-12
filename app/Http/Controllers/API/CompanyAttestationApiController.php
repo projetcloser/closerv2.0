@@ -13,7 +13,7 @@ class CompanyAttestationApiController extends Controller
      */
     public function index()
     {
-        $companyAttestations = CompanyAttestation::where('status', '<>', 0)->get();
+        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)->get();
         return response()->json($companyAttestations);
     }
 
@@ -41,7 +41,7 @@ class CompanyAttestationApiController extends Controller
      */
     public function show($id)
     {
-        $companyAttestation = CompanyAttestation::where('id', $id)->where('status', '<>', 0)->first();
+        $companyAttestation = CompanyAttestation::where('id', $id)->where('open_close', '!=', 1)->first();
         if (!empty($companyAttestation)) {
             return response()->json($companyAttestation);
         } else {
@@ -56,7 +56,7 @@ class CompanyAttestationApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (CompanyAttestation::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (CompanyAttestation::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $companyAttestation = CompanyAttestation::find($id);
             $companyAttestation->member_id = is_null($request->member_id) ? $companyAttestation->member_id : $request->member_id;
             $companyAttestation->payment_amount = is_null($request->payment_amount) ? $companyAttestation->payment_amount : $request->payment_amount;
@@ -82,9 +82,9 @@ class CompanyAttestationApiController extends Controller
      */
     public function destroy($id)
     {
-        if (CompanyAttestation::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (CompanyAttestation::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $companyAttestation = CompanyAttestation::find($id);
-            $companyAttestation->status = 0;
+            $companyAttestation->open_close = 1;
             $companyAttestation->save();
             return response()->json([
                 "message" => "Company Attestation deleted"

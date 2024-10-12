@@ -13,7 +13,7 @@ class MemberAcademicStatesApiController extends Controller
      */
     public function index()
     {
-        $academicStates = MemberAcademicState::where('status', '<>', 0)->get();
+        $academicStates = MemberAcademicState::where('open_close', '!=', 1)->get();
         return response()->json($academicStates);
     }
 
@@ -50,7 +50,7 @@ class MemberAcademicStatesApiController extends Controller
      */
     public function show($id)
     {
-        $academicState = MemberAcademicState::where('id', $id)->where('status', '<>', 0)->first();
+        $academicState = MemberAcademicState::where('id', $id)->where('open_close', '!=', 1)->first();
         if (!empty($academicState)) {
             return response()->json($academicState);
         } else {
@@ -65,7 +65,7 @@ class MemberAcademicStatesApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (MemberAcademicState::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (MemberAcademicState::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $academicState = MemberAcademicState::find($id);
             $academicState->member_id = is_null($request->member_id) ? $academicState->member_id : $request->member_id;
             $academicState->lastname = is_null($request->lastname) ? $academicState->lastname : $request->lastname;
@@ -99,9 +99,9 @@ class MemberAcademicStatesApiController extends Controller
      */
     public function destroy($id)
     {
-        if (MemberAcademicState::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (MemberAcademicState::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $academicState = MemberAcademicState::find($id);
-            $academicState->status = 0;
+            $academicState->open_close = 1;
             $academicState->save();
             return response()->json([
                 "message" => "Member Academic State deleted"

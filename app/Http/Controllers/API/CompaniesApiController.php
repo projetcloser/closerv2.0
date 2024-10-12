@@ -13,7 +13,7 @@ class CompaniesApiController extends Controller
      */
     public function index()
     {
-        $companies = Company::where('status', '<>', 0)->get();
+        $companies = Company::where('open_close', '!=', 1)->get();
         return response()->json($companies);
     }
 
@@ -48,7 +48,7 @@ class CompaniesApiController extends Controller
      */
     public function show($id)
     {
-        $company = Company::where('id', $id)->where('status', '<>', 0)->first();
+        $company = Company::where('id', $id)->where('open_close', '!=', 1)->first();
         if (!empty($company)) {
             return response()->json($company);
         } else {
@@ -63,7 +63,7 @@ class CompaniesApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Company::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Company::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $company = Company::find($id);
             $company->social_reason = is_null($request->company_name) ? $company->social_reason : $request->company_name;
             $company->author = is_null($request->author) ? $company->author : $request->author;
@@ -95,9 +95,9 @@ class CompaniesApiController extends Controller
      */
     public function destroy($id)
     {
-        if (Company::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Company::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $company = Company::find($id);
-            $company->status = 0;
+            $company->open_close = 1;
             $company->save();
             return response()->json([
                 "message" => "Company deleted"

@@ -13,22 +13,17 @@ return new class extends Migration
     {
         Schema::create('cotisations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cashflow_id');
+            $table->foreignId('cashflow_id')->constrained('cashflows')->noActionOnDelete();;
             $table->date('pay_year');
             $table->string('ref_ing_cost');
-            $table->unsignedBigInteger('member_id');
-            $table->integer('amount');
+            $table->foreignId('member_id')->constrained('members')->noActionOnDelete();
+            $table->integer('amount')->default(60000);
             $table->integer('pay');
-            $table->string('author');
+            $table->foreignId('staff_id')->constrained('staffs')->noActionOnDelete();
             $table->string('status')->default('OK');
-            $table->unsignedBigInteger('personnel_id');
-            $table->boolean('open_close')->default(false);
+            $table->string('author');
+            $table->boolean('open_close')->default(0);
             $table->timestamps();
-
-            // Foreign keys
-            $table->foreign('cashflow_id')->references('id')->on('cashflows')->onDelete('cascade');
-            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
-            $table->foreign('personnel_id')->references('id')->on('personnels')->onDelete('cascade');
         });
     }
 

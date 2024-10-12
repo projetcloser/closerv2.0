@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('start_date');
             $table->string('end_date');
             $table->string('author');
-            $table->tinyInteger('status')->default(1);
+            $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
     }

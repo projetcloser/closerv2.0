@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('balance');
-            $table->foreignId('personnel_id')->constrained('personnels')->onDelete('cascade');
+            $table->foreignId('staff_id')->constrained('staff')->noActionOnDelete();
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });

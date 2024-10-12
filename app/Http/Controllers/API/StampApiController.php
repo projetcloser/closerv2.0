@@ -13,7 +13,7 @@ class StampApiController extends Controller
      */
     public function index()
     {
-        $stamps = Stamp::where('status', '<>', 0)->get();
+        $stamps = Stamp::where('open_close', '!=', 1)->get();
         return response()->json($stamps);
     }
 
@@ -42,7 +42,7 @@ class StampApiController extends Controller
      */
     public function show($id)
     {
-        $stamp = Stamp::where('id', $id)->where('status', '<>', 0)->first();
+        $stamp = Stamp::where('id', $id)->where('open_close', '!=', 1)->first();
         if (!empty($stamp)) {
             return response()->json($stamp);
         } else {
@@ -57,7 +57,7 @@ class StampApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Stamp::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Stamp::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $stamp = Stamp::find($id);
             $stamp->receipt_number = is_null($request->receipt_number) ? $stamp->matricule : $request->receipt_number;
             $stamp->step = is_null($request->step) ? $stamp->step : $request->step;
@@ -83,9 +83,9 @@ class StampApiController extends Controller
      */
     public function destroy($id)
     {
-        if (Stamp::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Stamp::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $stamp = Stamp::find($id);
-            $stamp->status = 0;
+            $stamp->open_close = 1;
             $stamp->save();
 
             return response()->json([
