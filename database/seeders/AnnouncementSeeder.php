@@ -18,6 +18,7 @@ class AnnouncementSeeder extends Seeder
             Announcement::create([
                 'object' => $faker->sentence,
                 'body' => $faker->paragraph,
+                'attachment' => $faker->filePath("tmp/file.pdf"),
                 'author' => $faker->userName
             ]);
         }
