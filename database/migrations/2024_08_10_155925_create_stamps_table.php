@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('stamps', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('member_id');
+            $table->foreignId('member_id')->index();
             $table->string('receipt_number');
-            $table->tinyInteger('step')->default(1);
-            $table->string('author');
-            $table->unsignedInteger('city_id');
+            $table->tinyInteger('status')->default(1);  // 1: en cours de fabrication, 2: disponible, 3: envoyée, 4: livrée
+            $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
             $table->string('phone')->nullable();
             $table->string('year')->nullable();
-            $table->tinyInteger('status')->default(1);
+            $table->string('author');
+            $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class MembersApiController extends Controller
      */
     public function index()
     {
-        $members = Member::where('status', '<>', 0)->get();
+        $members = Member::where('open_close', '!=', 1)->get();
         return response()->json($members);
     }
 
@@ -45,7 +45,7 @@ class MembersApiController extends Controller
      */
     public function show($id)
     {
-        $member = Member::where('id', $id)->where('status', '<>', 0)->first();
+        $member = Member::where('id', $id)->where('open_close', '!=', 1)->first();
         if (!empty($member)) {
             return response()->json($member);
         } else {
@@ -60,7 +60,7 @@ class MembersApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Member::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Member::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $member = Member::find($id);
             $member->matricule = is_null($request->matricule) ? $member->matricule : $request->matricule;
             $member->lastname = is_null($request->lastname) ? $member->lastname : $request->lastname;
@@ -90,9 +90,9 @@ class MembersApiController extends Controller
      */
     public function destroy($id)
     {
-        if (Member::where('id', $id)->where('status', '<>', 0)->exists()) {
+        if (Member::where('id', $id)->where('open_close', '!=', 1)->exists()) {
             $member = Member::find($id);
-            $member->status = 0;
+            $member->open_close = 1;
             $member->save();
             return response()->json([
                 "message" => "Member deleted"

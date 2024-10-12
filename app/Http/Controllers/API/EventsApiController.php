@@ -13,7 +13,7 @@ class EventsApiController extends Controller
      */
     public function index()
     {
-        $events = Event::where('status', '<>', 0)->get();
+        $events = Event::where('open_close', '!=', 1)->get();
         return response()->json($events);
     }
 
@@ -43,7 +43,7 @@ class EventsApiController extends Controller
      */
     public function show($id)
     {
-        $events = Event::whereId($id)->where('status', '<>', 0)->first();
+        $events = Event::whereId($id)->where('open_close', '!=', 1)->first();
         if (!empty($events)) {
             return response()->json($events);
         } else {
@@ -88,9 +88,9 @@ class EventsApiController extends Controller
      */
     public function destroy($id)
     {
-        if (Event::whereId($id)->where('status', '<>', 0)->exists()) {
+        if (Event::whereId($id)->where('open_close', '!=', 1)->exists()) {
             $company = Event::find($id);
-            $company->status = 0;
+            $company->open_close = 1;
             $company->save();
             return response()->json([
                 "message" => "Event deleted"
