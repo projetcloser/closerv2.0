@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('object');
             $table->string('body');
             $table->string('author');
+            $table->string('attachment')->nullable();
             $table->string('status')->default(0)->comment("O - non lu, 1 - lu");
             $table->boolean('open_close')->default(0);
             $table->timestamps();
