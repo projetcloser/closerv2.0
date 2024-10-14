@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('matricule');
             $table->string('lastname');
             $table->string('firstname')->nullable();
+            $table->enum('gender', ['MALE', 'FEMALE']);
             $table->string('email');
+            $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
             $table->string('order_number');
             $table->string('phone');
             $table->string('phone_2')->nullable();
@@ -33,10 +35,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('member_id')->index();
             $table->string('birth_day')->nullable();
-            $table->enum('gender', ['MALE', 'FEMALE']);
             $table->string('address')->nullable();
             $table->foreignId('country_id')->constrained('countries')->noActionOnDelete();
-            $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
             $table->string('neighborhood')->nullable();
             $table->string('biography')->nullable();
             $table->string('avatar64')->nullable();

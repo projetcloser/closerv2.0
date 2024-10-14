@@ -14,8 +14,8 @@ class CompaniesSeeder extends Seeder
     public function run(): void
     {
         $strings = array(
-            'private',
-            'public',
+            'PRIVATE',
+            'PUBLIC',
         );
 
         $faker = \Faker\Factory::create();
