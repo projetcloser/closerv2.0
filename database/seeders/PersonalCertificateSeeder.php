@@ -28,7 +28,6 @@ class PersonalCertificateSeeder extends Seeder
             PersonalCertificate::create([
                 'cashflow_id' => $cashflow->id,
                 'member_id' => $member->id,
-                'personnel_id' => $personnel->id,
                 'ref_dem_part' => 'N° ' . str_pad($numeroref, 4, '0', STR_PAD_LEFT) . ' / ' . $month . ' /Pdt/SG/ONIGC/' . $year,
                 'amount' => 0,
                 'status' => 'envoyer',

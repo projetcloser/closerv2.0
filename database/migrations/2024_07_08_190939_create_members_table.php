@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('matricule');
             $table->string('lastname');
             $table->string('firstname')->nullable();
-            $table->enum('gender', ['MALE', 'FEMALE']);
+            $table->enum('gender', ['MALE', 'FEMALE'])->nullable();
             $table->string('email');
-            $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
+            $table->foreignId('city_id')->nullable()->constrained('cities')->noActionOnDelete();
             $table->string('order_number');
             $table->string('phone');
             $table->string('phone_2')->nullable();
