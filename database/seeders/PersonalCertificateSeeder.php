@@ -18,15 +18,8 @@ class PersonalCertificateSeeder extends Seeder
         // Vérifie qu'il y a au moins un enregistrement dans chaque table
         $cashflow = Cashflow::first();
         $member = Member::first();
-        $personnel = Staff::first();
 
-        if (!$cashflow || !$member || !$personnel) {
-            // Gérer l'absence d'enregistrements nécessaires
-            // Par exemple, tu peux lancer une exception ou faire un log
-            return; // Sortir si l'un des enregistrements est manquant
-        }
 
-        // Compter les certificats personnels existants pour générer la référence
         $numeroref = PersonalCertificate::count() + 1;
         $month = now()->format('m');
         $year = now()->format('y');
@@ -36,10 +29,9 @@ class PersonalCertificateSeeder extends Seeder
             PersonalCertificate::create([
                 'cashflow_id' => $cashflow->id,
                 'member_id' => $member->id,
-                'staff_id' => $personnel->id,
                 'ref_dem_part' => 'N° ' . str_pad($numeroref, 4, '0', STR_PAD_LEFT) . ' / ' . $month . ' /Pdt/SG/ONIGC/' . $year,
-                'amount' => 0,  // Valeur par défaut
-                'status' => 1,  // Statut par défaut : non payé
+                'amount' => 0,
+                'status' => 1,
                 'author' => 'John Doe',
                 'open_close' => 0,  // Valeur par défaut
                 'certification_date' => now()->toDateString(),  // Format de date

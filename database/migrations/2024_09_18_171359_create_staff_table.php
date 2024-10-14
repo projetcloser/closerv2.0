@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staffs', function (Blueprint $table) {
+        Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->string('lastname');
             $table->string('firstname');
@@ -32,14 +32,12 @@ return new class extends Migration
             $table->integer('num_children')->nullable();
             $table->foreignId('city_id')->constrained('cities')->noActionOnDelete();
             $table->foreignId('country_id')->constrained('countries')->noActionOnDelete();
-            $table->string('neighbourhood')->nullable();
+            $table->string('neighborhood')->nullable();
             $table->string('attachment_file')->nullable();
             $table->tinyInteger('statut')->comment("1 - ACTIF (default) et 0 - ANCIEN");
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
-
-
     }
 
 
@@ -48,7 +46,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staffs');
-
+        Schema::dropIfExists('staff');
     }
 };

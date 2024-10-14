@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Staff;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class StaffSeeder extends Seeder
@@ -12,39 +13,44 @@ class StaffSeeder extends Seeder
      */
     public function run()
     {
-        // Définir les valeurs possibles pour les colonnes qui utilisent des enums
-        $genders = ['MALE', 'FEMALE'];
-        $contractTypes = ['CDD', 'CDI', 'TEMPORAIRE'];
+        $strings = array(
+            'MALE',
+            'FEMALE',
+        );
+
+        $cTypes = array(
+            'CDD',
+            'CDI',
+            'TEMPORAIRE'
+        );
 
         $faker = \Faker\Factory::create();
-
         for ($i = 0; $i < 10; $i++) {
-            $genderIndex = array_rand($genders);
-            $contractTypeIndex = array_rand($contractTypes);
-
+            $typeIndex = array_rand($strings);
+            $cTypeIndex = array_rand($cTypes);
             Staff::create([
-                'statut' => 1,  // 1 pour ACTIF
+                'statut' => rand(0, 1),
                 'lastname' => $faker->lastName,
                 'firstname' => $faker->firstName,
-                'email' => $faker->unique()->safeEmail,  // Assurer l'unicité de l'email
+                'email' => $faker->email,
                 'date_card_validity' => '2025-12-31',
                 'phone' => $faker->phoneNumber,
                 'phone_2' => $faker->phoneNumber,
                 'father_name' => $faker->firstNameMale,
-                'father_phone' => $faker->phoneNumber,
-                'mother_name' => $faker->firstNameFemale,
+                'father_phone' => $faker->lastName . ' ' . $faker->phoneNumber,
+                'mother_name' => $faker->lastName . ' ' . $faker->firstNameMale,
                 'birthday' => '1990-01-01',
                 'place_birth' => 'Yaoundé',
                 'profession' => 'Doctor',
-                'gender' => $genders[$genderIndex],
-                'contract_type' => $contractTypes[$contractTypeIndex], // Valeur choisie parmi les types de contrat valides
+                'gender' => $strings[$typeIndex],
+                'contract_type' => $cTypes[$cTypeIndex],
                 'marital_status' => 'Married',
                 'position' => 'Head of Department',
                 'num_children' => 2,
-                'open_close' => 0,  // 0 par défaut
-                'city_id' => 1,  // S'assurer que ces IDs existent
+                'open_close' => 0,
+                'city_id' => 1,
                 'country_id' => 1,
-                'neighbourhood' => $faker->address,  // Ajouter un champ pour le quartier
+                'neighborhood' => $faker->address,
                 'attachment_file' => $faker->filePath("tmp/file.pdf")
             ]);
         }

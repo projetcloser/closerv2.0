@@ -13,12 +13,20 @@ class MembersSeeder extends Seeder
      */
     public function run(): void
     {
+        $strings = array(
+            'MALE',
+            'FEMALE',
+        );
+
         $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 1; $i++) {
+        for ($i = 0; $i < 10; $i++) {
+            $sexIndex = array_rand($strings);
             Member::create([
                 'matricule' => $faker->macAddress,
                 'lastname' => $faker->lastName,
                 'firstname' => $faker->firstName,
+                'gender' => $strings[$sexIndex],
+                'city_id' => rand(1, 10),
                 'email' => $faker->email,
                 'order_number' => $faker->imei,
                 'phone' => $faker->phoneNumber,
