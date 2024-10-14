@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CompaniesApiController;
 use App\Http\Controllers\API\CompanyAttestationApiController;
 use App\Http\Controllers\API\CountriesApiController;
+use App\Http\Controllers\API\DebtsApiController;
 use App\Http\Controllers\API\EventsApiController;
 use App\Http\Controllers\API\FinesApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
@@ -52,6 +53,9 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::post('academic-states', [MemberAcademicStatesApiController::class, 'store']);
     Route::put('academic-states/{id}', [MemberAcademicStatesApiController::class, 'update']);
     Route::delete('academic-states/{id}', [MemberAcademicStatesApiController::class, 'destroy']);
+
+    // récupérer la liste des dettes
+    Route::get('/debt/{memberId}', [DebtsApiController::class, 'indexOfOneMember']);
 });
 
 // Stamps
@@ -208,4 +212,19 @@ Route::prefix('fines')->group(function () {
 
     // "Supprimer" une amende spécifique (mettre status à 0)
     Route::delete('/{id}', [FinesApiController::class, 'destroy']);
+});
+
+
+// Debts
+Route::prefix('debts')->group(function () {
+
+    Route::get('/', [DebtsApiController::class, 'index']);
+
+    Route::get('/{id}', [DebtsApiController::class, 'show']);
+
+    Route::post('/', [DebtsApiController::class, 'store']);
+
+    Route::put('/{id}', [DebtsApiController::class, 'update']);
+
+    Route::delete('/{id}', [DebtsApiController::class, 'destroy']);
 });

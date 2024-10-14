@@ -14,15 +14,22 @@ class StaffSeeder extends Seeder
     public function run()
     {
         $strings = array(
-            'Male',
-            'Female',
+            'MALE',
+            'FEMALE',
+        );
+
+        $cTypes = array(
+            'CDD',
+            'CDI',
+            'TEMPORAIRE'
         );
 
         $faker = \Faker\Factory::create();
         for ($i = 0; $i < 10; $i++) {
             $typeIndex = array_rand($strings);
+            $cTypeIndex = array_rand($cTypes);
             Staff::create([
-                'statut' => 'Active',
+                'statut' => rand(0, 1),
                 'lastname' => $faker->lastName,
                 'firstname' => $faker->firstName,
                 'email' => $faker->email,
@@ -35,15 +42,15 @@ class StaffSeeder extends Seeder
                 'birthday' => '1990-01-01',
                 'place_birth' => 'Yaoundé',
                 'profession' => 'Doctor',
-                'genre' => $strings[$typeIndex],
-                'contract_type' => 'Permanent',
+                'gender' => $strings[$typeIndex],
+                'contract_type' => $cTypes[$cTypeIndex],
                 'marital_status' => 'Married',
                 'position' => 'Head of Department',
                 'num_children' => 2,
                 'open_close' => 0,
                 'city_id' => 1,
                 'country_id' => 1,
-                'neighbourhood' => $faker->address,
+                'neighborhood' => $faker->address,
                 'attachment_file' => $faker->filePath("tmp/file.pdf")
             ]);
         }
