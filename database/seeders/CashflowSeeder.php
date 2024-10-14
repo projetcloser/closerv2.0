@@ -18,7 +18,7 @@ class CashflowSeeder extends Seeder
                 'code' => 'CF001',
                 'name' => 'Initial Cashflow',
                 'balance' => 1000,
-                'personnel_id' => 1, // Remplace par une ID valide
+                'staff_id' => 1, // Remplace par une ID valide
                 'open_close' => 0,
             ],
             // Ajoute d'autres cashflows si nécessaire
