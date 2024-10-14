@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Dept;
+use App\Models\Debt;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class DeptsApiController extends Controller
+class DebtsApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $debts = Dept::where('open_close', '!=', 1)->get();
+        $debts = Debt::where('open_close', '!=', 1)->get();
         return response()->json($debts);
     }
 
@@ -36,7 +36,7 @@ class DeptsApiController extends Controller
             'open_close' => 'sometimes|boolean|default:0',
         ]);
 
-        $debt = Dept::create($request->all());
+        $debt = Debt::create($request->all());
 
         return response()->json($debt, Response::HTTP_CREATED);
     }
@@ -47,9 +47,9 @@ class DeptsApiController extends Controller
     public function show($id)
     {
 
-        $debt = Dept::find($id);
+        $debt = Debt::find($id);
         if (!$debt || $debt->open_close == 1) {
-            return response()->json(['message' => 'Dept not found or closed'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message' => 'Debt not found or closed'], Response::HTTP_NOT_FOUND);
         }
         return response()->json($debt);
     }
@@ -59,7 +59,7 @@ class DeptsApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $debt = Dept::find($id);
+        $debt = Debt::find($id);
         if (!$debt) {
             return response()->json(['message' => 'Debt not found'], Response::HTTP_NOT_FOUND);
         }
@@ -87,7 +87,7 @@ class DeptsApiController extends Controller
      */
     public function destroy($id)
     {
-        $debt = Dept::find($id);
+        $debt = Debt::find($id);
         if (!$debt) {
             return response()->json(['message' => 'Debt not found'], Response::HTTP_NOT_FOUND);
         }
