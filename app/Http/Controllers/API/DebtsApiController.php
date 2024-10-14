@@ -19,6 +19,15 @@ class DebtsApiController extends Controller
     }
 
     /**
+     * Display a listing ot the resource from on member
+     */
+    public function indexOfOneMember($memberId)
+    {
+        $debts = Debt::where('open_close', '!=', 1)->where('member_id', $memberId)->get();
+        return response()->json($debts);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
