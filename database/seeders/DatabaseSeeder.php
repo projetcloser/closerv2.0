@@ -21,13 +21,13 @@ class DatabaseSeeder extends Seeder
         $this->call(MembersSeeder::class);
         $this->call(MemberAcademicStatesSeeder::class);
         $this->call(StampsSeeder::class);
-        $this->call(PersonnelSeeder::class);
+        $this->call(StaffSeeder::class);
         $this->call(CashflowSeeder::class);
         $this->call(CotisationSeeder::class);
         $this->call(PersonalCertificateSeeder::class);
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+//        User::factory()->create([
+//            'name' => 'Test User',
+//            'email' => 'test@example.com',
+//        ]);
     }
 }

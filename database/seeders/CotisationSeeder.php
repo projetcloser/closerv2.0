@@ -23,7 +23,7 @@ class CotisationSeeder extends Seeder
                 'pay' => 1000,
                 'author' => 'John Doe',
                 'status' => 'OK',
-                'personnel_id' => 1,
+                'staff_id' => 1,
                 'open_close' => 0,
             ],
             // Ajoute plus de données si nécessaire

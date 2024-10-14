@@ -33,6 +33,6 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
     use HasFactory;
-    protected $table = 'staff';
+    protected $table = 'staffs';
     protected $fillable = ['statut', 'lastname', 'firstname', 'email', 'date_card_validity', 'phone', 'father_name', 'father_phone', 'mother_name', 'birthday', 'place_birth', 'profession', 'genre', 'contract_type', 'marital_status', 'position', 'num_children', 'open_close', 'city_id', 'country_id', 'phone_2', 'neighbourhood', 'attachment_file'];
 }

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('country_id')->constrained('countries')->noActionOnDelete();
             $table->string('name');
+            $table->tinyInteger('status')->default(1);
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
@@ -33,7 +34,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('countries');
         Schema::dropIfExists('cities');
+        Schema::dropIfExists('countries');
+
     }
 };

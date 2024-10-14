@@ -14,7 +14,7 @@ class MembersSeeder extends Seeder
     public function run(): void
     {
         $faker = \Faker\Factory::create();
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 1; $i++) {
             Member::create([
                 'matricule' => $faker->macAddress,
                 'lastname' => $faker->lastName,

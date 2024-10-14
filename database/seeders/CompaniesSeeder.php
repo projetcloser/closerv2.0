@@ -14,20 +14,20 @@ class CompaniesSeeder extends Seeder
     public function run(): void
     {
         $strings = array(
-            'private',
-            'public',
+            'PUBLIC',
+            'PRIVEE',
         );
 
         $faker = \Faker\Factory::create();
         for ($i = 0; $i < 2; $i++) {
-            $cityId = rand(1, 22944);
+            $cityId = rand(1, 2);
             $typeIndex = array_rand($strings);
             Company::create([
-                'social_reason' => $faker->company,
+                'company_name' => $faker->company,
                 'author' => $faker->name,
                 'phone' => $faker->phoneNumber,
                 'nui' => $faker->imei,
-                'type' => $strings[$typeIndex],
+                'company_type' => $strings[$typeIndex],
                 'country_id' => 1,
                 'city_id' => $cityId,
                 'contact_person' => $faker->name,
