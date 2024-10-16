@@ -13,6 +13,7 @@ use App\Http\Controllers\API\CountriesApiController;
 use App\Http\Controllers\API\DebtsApiController;
 use App\Http\Controllers\API\EventsApiController;
 use App\Http\Controllers\API\FinesApiController;
+use App\Http\Controllers\API\GroupsApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
 use App\Http\Controllers\API\StaffApiController;
@@ -227,4 +228,19 @@ Route::prefix('debts')->group(function () {
     Route::put('/{id}', [DebtsApiController::class, 'update']);
 
     Route::delete('/{id}', [DebtsApiController::class, 'destroy']);
+});
+
+
+// Groups
+Route::prefix('groups')->group(function () {
+
+    Route::get('/', [GroupsApiController::class, 'index']);
+
+    Route::get('/{id}', [GroupsApiController::class, 'show']);
+
+    Route::post('/', [GroupsApiController::class, 'store']);
+
+    Route::put('/{id}', [GroupsApiController::class, 'update']);
+
+    Route::delete('/{id}', [GroupsApiController::class, 'destroy']);
 });

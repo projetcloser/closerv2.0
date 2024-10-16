@@ -7,6 +7,7 @@ use App\Models\PersonalCertificate;
 use App\Models\Cashflow;
 use App\Models\Member;
 use App\Models\Personnel;
+use App\Models\Staff;
 
 class PersonalCertificateSeeder extends Seeder
 {
@@ -17,7 +18,6 @@ class PersonalCertificateSeeder extends Seeder
     {
         $cashflow = Cashflow::first();
         $member = Member::first();
-        $personnel = Personnel::first();
 
         $numeroref = PersonalCertificate::count() + 1;
         $month = now()->format('m');
