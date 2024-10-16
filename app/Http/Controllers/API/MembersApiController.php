@@ -26,13 +26,16 @@ class MembersApiController extends Controller
         $member->matricule = $request->matricule;
         $member->lastname = $request->lastname;
         $member->firstname = $request->firstname;
+        $member->gender = $request->gender;
         $member->email = $request->email;
+        $member->city_id = $request->city_id;
         $member->order_number = $request->order_number;
         $member->phone = $request->phone;
         $member->phone_2 = $request->phone_2;
         $member->folder = $request->folder;
         $member->picture = $request->picture;
         $member->debt = $request->debt;
+        $member->group_id = $request->group_id;
 
         $member->save();
         return response()->json([
@@ -65,13 +68,16 @@ class MembersApiController extends Controller
             $member->matricule = is_null($request->matricule) ? $member->matricule : $request->matricule;
             $member->lastname = is_null($request->lastname) ? $member->lastname : $request->lastname;
             $member->firstname = is_null($request->firstname) ? $member->firstname : $request->firstname;
+            $member->gender = is_null($request->gender) ? $member->gender : $request->gender;
             $member->email = is_null($request->email) ? $member->email : $request->email;
+            $member->city_id = is_null($request->city_id) ? $member->city_id : $request->city_id;
             $member->order_number = is_null($request->order_number) ? $member->order_number : $request->order_number;
             $member->phone = is_null($request->phone) ? $member->phone : $request->phone;
             $member->phone_2 = is_null($request->phone_2) ? $member->phone_2 : $request->phone_2;
             $member->folder = is_null($request->folder) ? $member->folder : $request->folder;
             $member->picture = is_null($request->picture) ? $member->picture : $request->picture;
             $member->debt = is_null($request->debt) ? $member->debt : $request->debt;
+            $member->group_id = is_null($request->group_id) ? $member->group_id : $request->group_id;
 
             $member->save();
 
