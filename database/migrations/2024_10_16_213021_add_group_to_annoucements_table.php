@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-
+        Schema::table('annoucements', function (Blueprint $table) {
+            $table->foreignId('group_id')->default(1)->constrained('groups')->noActionOnDelete();
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-
+        Schema::table('annoucements', function (Blueprint $table) {
+            //
+        });
     }
 };
