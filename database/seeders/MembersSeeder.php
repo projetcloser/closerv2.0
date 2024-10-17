@@ -26,7 +26,7 @@ class MembersSeeder extends Seeder
                 'lastname' => $faker->lastName,
                 'firstname' => $faker->firstName,
                 'gender' => $strings[$sexIndex],
-                'city_id' => rand(1, 10),
+                'city_id' => rand(1, 2),
                 'email' => $faker->email,
                 'order_number' => $faker->imei,
                 'phone' => $faker->phoneNumber,

@@ -11,17 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cashflows', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->integer('balance');
-            $table->foreignId('staff_id')->constrained('staffs')->noActionOnDelete();
+            $table->string('label');
             $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
-
-
     }
 
     /**
@@ -29,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cashflows');
-
+        Schema::dropIfExists('groups');
     }
 };

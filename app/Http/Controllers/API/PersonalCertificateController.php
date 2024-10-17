@@ -30,7 +30,6 @@ class PersonalCertificateController extends Controller
         $validated = $request->validate([
             'cashflow_id' => 'required|exists:cashflows,id',
             'member_id' => 'required|exists:members,id',
-            'personnel_id' => 'required|exists:personnels,id',
             'author' => 'string',
         ]);
 
@@ -45,7 +44,6 @@ class PersonalCertificateController extends Controller
         $validated = $request->validate([
             'cashflow_id' => 'exists:cashflows,id',
             'member_id' => 'exists:members,id',
-            'personnel_id' => 'exists:personnels,id',
             'author' => 'string',
         ]);
 

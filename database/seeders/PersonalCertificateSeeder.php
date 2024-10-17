@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Staff;
 use Illuminate\Database\Seeder;
 use App\Models\PersonalCertificate;
 use App\Models\Cashflow;
