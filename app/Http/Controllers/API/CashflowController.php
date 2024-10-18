@@ -32,7 +32,7 @@ class CashflowController extends Controller
         $request->validate([
             'code' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'personnel_id' => 'required|exists:personnels,id',
+            'staff_id' => 'required',
             'balance' => 'required|integer'
         ]);
 
@@ -52,7 +52,7 @@ class CashflowController extends Controller
         $request->validate([
             'code' => 'sometimes|required|string|max:255',
             'name' => 'sometimes|required|string|max:255',
-            'personnel_id' => 'sometimes|required|exists:personnels,id',
+            'staff_id' => 'sometimes|required',
             'balance' => 'sometimes|required|integer'
         ]);
 
