@@ -18,6 +18,7 @@ use App\Http\Controllers\API\PersonalCertificateController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\StaffApiController;
 use App\Http\Controllers\API\StampApiController;
+use App\Http\Controllers\API\UserRoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,8 @@ Route::get('/user', function (Request $request) {
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::middleware('auth:api')->get('/user-info', [AuthController::class, 'getUserInfo']);
+
 
 
 
@@ -180,6 +183,13 @@ Route::prefix('roles')->group(function () {
     Route::get('/', [RoleController::class, 'index']);
 
     Route::get('/{id}', [RoleController::class, 'show']);
+});
+
+
+Route::prefix('user-roles')->group(function () {
+    Route::get('/{userId}', [UserRoleController::class, 'index']);
+    Route::post('/', [UserRoleController::class, 'store']);
+    Route::get('/{userId}/{roleId}', [UserRoleController::class, 'show']);
 });
 
 //------------------------------------------------------------------------------------------------------------------
@@ -369,6 +379,11 @@ Route::middleware('auth:api')->group(function () {
         Route::put('/{id}', [RoleController::class, 'update']);
 
         Route::delete('/{id}', [RoleController::class, 'destroy']);
+    });
+
+    Route::prefix('user-roles')->group(function () {
+        Route::put('/{userId}/{roleId}', [UserRoleController::class, 'update']);
+        Route::delete('/{userId}/{roleId}', [UserRoleController::class, 'destroy']);
     });
 
 });

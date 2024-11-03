@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
+use App\Models\Staff;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
@@ -307,5 +309,42 @@ class AuthController extends Controller
     public function user()
     {
         return response()->json(auth()->user());
+    }
+
+    public function getUserInfo(Request $request)
+    {
+        // Récupérer l'utilisateur authentifié
+        $user = Auth::user();
+
+        // Vérifiez si l'utilisateur est authentifié
+        if (!$user) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        // Récupérer le rôle de l'utilisateur via la table user_roles
+        $userRole = UserRole::where('user_id', $user->id)->with('role')->first();
+
+        // Récupérer les informations du personnel selon le rôle
+        $perso = null;
+        if ($userRole) {
+            if ($userRole->role->name === 'membre') {
+                // Récupérer les informations du membre
+                $perso = Member::where('id', $user->id_perso)->first(); // Assurez-vous d'avoir une relation définie
+            } else {
+                // Récupérer les informations du personnel
+                $perso = Staff::where('id', $user->id_perso)->first(); // Assurez-vous d'avoir une relation définie
+            }
+        }
+
+
+
+        // Construire la réponse
+        return response()->json([
+//            'tokenId' => $request->bearerToken(), // Token JWT
+//            'token' => $request->bearerToken(), // Vous pouvez renvoyer un autre token si nécessaire
+            'user' => $user,
+            'perso' => $perso, // Renvoie toutes les informations du personnel ou membre
+            'role' => $userRole ? $userRole->role : null, // Renvoie les informations du rôle
+        ]);
     }
 }

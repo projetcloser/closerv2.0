@@ -51,6 +51,7 @@ class RoleController extends Controller
         return response()->json($role);
     }
 
+
     // Mettre à jour un rôle
     public function update(Request $request, $id)
     {
