@@ -16,6 +16,7 @@ use App\Http\Controllers\API\FinesApiController;
 use App\Http\Controllers\API\GroupsApiController;
 use App\Http\Controllers\API\MemberAcademicStatesApiController;
 use App\Http\Controllers\API\MembersApiController;
+use App\Http\Controllers\API\PaymentApiController;
 use App\Http\Controllers\API\StaffApiController;
 use App\Http\Controllers\API\StampApiController;
 
@@ -25,6 +26,18 @@ Route::get('/', function () {
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::prefix('/payment')->namespace('Payment')->group(function () {
+    Route::get('/', [PaymentApiController::class, 'index']);
+    Route::post('/action', [PaymentApiController::class, 'action']);
+    Route::put('/company/{id}', [CompaniesApiController::class, 'update']);
+    Route::delete('/company/{id}', [CompaniesApiController::class, 'destroy']);
+    Route::get('attestations', [CompanyAttestationApiController::class, 'index']);
+    Route::get('attestations/{id}', [CompanyAttestationApiController::class, 'show']);
+    Route::post('attestations', [CompanyAttestationApiController::class, 'store']);
+    Route::put('attestations/{id}', [CompanyAttestationApiController::class, 'update']);
+    Route::delete('attestations/{id}', [CompanyAttestationApiController::class, 'destroy']);
 });
 
 Route::prefix('/companies')->namespace('Companies')->group(function () {
