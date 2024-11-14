@@ -33,6 +33,7 @@ class PaymentApiController extends Controller
                 // echo "<pre>";
                 // print_r($data);
                 // die;
+                $member_id = $data['member_id'];
                 $customer_name = $data['customer_name'];
                 $customer_surname = $data['customer_surname'];
                 $description = $data['description'];
@@ -53,9 +54,9 @@ class PaymentApiController extends Controller
             // echo $site_id . "<br>";
 
             //notify url
-            $notify_url = $this->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
+            $notify_url = 'https://webhook.site/6faf3b31-6af1-4fb0-ad0a-208a1d7af95b'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
             //return url
-            $return_url = $this->getCurrentUrl() . 'cinetpay-sdk-php/return/return.php';
+            $return_url = 'https://webhook.site/6faf3b31-6af1-4fb0-ad0a-208a1d7af95b'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/return/return.php';
             $channels = "ALL";
 
             /*information supplémentaire que vous voulez afficher
@@ -84,54 +85,48 @@ class PaymentApiController extends Controller
                 "channels" => $channels,
                 "invoice_data" => $invoice_data,
                 //pour afficher le paiement par carte de credit
-                "customer_email" => "", //l'email du client
-                "customer_phone_number" => "", //Le numéro de téléphone du client
-                "customer_address" => "", //l'adresse du client
-                "customer_city" => "", // ville du client
-                "customer_country" => "", //Le pays du client, la valeur à envoyer est le code ISO du pays (code à deux chiffre) ex : CI, BF, US, CA, FR
-                "customer_state" => "", //L’état dans de la quel se trouve le client. Cette valeur est obligatoire si le client se trouve au États Unis d’Amérique (US) ou au Canada (CA)
-                "customer_zip_code" => "" //Le code postal du client
+                "customer_email" => ($data['customer_email'] ?? ""), //l'email du client
+                "customer_phone_number" => ($data['customer_phone_number'] ?? ""), //Le numéro de téléphone du client
+                "customer_address" => ($data['customer_address'] ?? ""), //l'adresse du client
+                "customer_city" => ($data['customer_city'] ?? ""), // ville du client
+                "customer_country" => ($data['customer_country'] ?? ""), //Le pays du client, la valeur à envoyer est le code ISO du pays (code à deux chiffre) ex : CI, BF, US, CA, FR
+                "customer_state" => ($data['customer_state'] ?? ""), //L’état dans de la quel se trouve le client. Cette valeur est obligatoire si le client se trouve au États Unis d’Amérique (US) ou au Canada (CA)
+                "customer_zip_code" => ($data['customer_zip_code'] ?? "") //Le code postal du client
             );
-            // enregistrer la transaction dans votre base de donnée
-            /*  $commande->create(); */
 
-            $jsonEncode = json_encode($formData);
-
-            echo "<pre>";
-            print_r($jsonEncode);
-            echo "<br> **************************** <br>";
 
             $CinetPay = new Cinetpay($site_id, $apikey, $VerifySsl = false); //$VerifySsl=true <=> Pour activerr la verification ssl sur curl
             $result = $CinetPay->generatePaymentLink($formData);
 
-
-            echo "<pre>";
-            print_r(json_encode($result));
-            echo "<br>";
-            echo "<br> **************************** <br>";
+            // echo "<pre>";
+            // print_r($formData);
+            // die;
 
 
             $payload = new PaymentPayload([
+                "member_id" => $member_id,
                 "form_data" => json_encode($formData),
                 "request_result" => json_encode($result),
             ]);
 
-            echo "<pre>";
-            print_r($payload);
-            echo "<br>";
-            echo "<br> **************************** <br>";
+            // echo "<pre>";
+            // print_r($payload);
+            // die;
 
-
-            //$payload->save();
-            //die;
+            // enregistrer la transaction dans votre base de donnée
+            $payload->save();
 
             if ($result["code"] == '201') {
-                $url = $result["data"]["payment_url"];
-
-                // ajouter le token à la transaction enregistré
-                /* $commande->update(); */
+                // $url = $result["data"]["payment_url"];
                 //redirection vers l'url de paiement
-                return Redirect::to($url);
+                //return Redirect::to($url);
+                if (!empty($result)) {
+                    return response()->json($result);
+                } else {
+                    return response()->json([
+                        "message" => "Error"
+                    ], 404);
+                }
             }
         } catch (Exception $e) {
             echo $e->getMessage();

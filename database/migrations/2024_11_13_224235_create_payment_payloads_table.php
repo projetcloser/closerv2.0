@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('payment_payloads', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('member_id')->constrained('members')->noActionOnDelete();
             $table->longText('request_result');
             $table->longText('form_data');
             $table->boolean('open_close')->default(0);
