@@ -15,14 +15,20 @@
                     <p class="heading">EXEMPLE INTEGRATION PHP</p>
                     <form action="{{ url('/payment/action') }}" method="post" class="card-details ">@csrf
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <p class="text-warning mb-0">Matricule</p>
+                                    <input type="text" name="member_id" id="member_id" value="10">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <div class="form-group mb-0">
                                     <p class="text-warning mb-0">Nom</p>
                                     <input type="text" name="customer_name" id="customer_name" value="Colle">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group mb-4">
                                     <p class="text-warning mb-0">Prenom</p>
                                     <input type="text" name="customer_surname" id="customer_surname" value="Jeremie">
                                 </div>
