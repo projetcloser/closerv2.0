@@ -9,5 +9,5 @@ class PaymentPayload extends Model
 {
     use HasFactory;
     protected $table = 'payment_payloads';
-    protected $fillable = ['member_id', 'form_data', 'request_result'];
+    protected $fillable = ['member_id', 'transaction_id', 'form_data', 'request_result', 'check_result', 'status'];
 }

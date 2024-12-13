@@ -54,9 +54,9 @@ class PaymentApiController extends Controller
             // echo $site_id . "<br>";
 
             //notify url
-            $notify_url = 'https://webhook.site/6faf3b31-6af1-4fb0-ad0a-208a1d7af95b'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
+            $notify_url = 'https://webhook.site/aa8da616-6487-4d2b-9b91-7fa4b0dba1ae'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/notify/notify.php';
             //return url
-            $return_url = 'https://webhook.site/6faf3b31-6af1-4fb0-ad0a-208a1d7af95b'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/return/return.php';
+            $return_url = 'https://webhook.site/aa8da616-6487-4d2b-9b91-7fa4b0dba1ae'; //$this->getCurrentUrl() . 'cinetpay-sdk-php/return/return.php';
             $channels = "ALL";
 
             /*information supplémentaire que vous voulez afficher
@@ -105,6 +105,7 @@ class PaymentApiController extends Controller
 
             $payload = new PaymentPayload([
                 "member_id" => $member_id,
+                "transaction_id" => $id_transaction,
                 "form_data" => json_encode($formData),
                 "request_result" => json_encode($result),
             ]);
@@ -137,5 +138,49 @@ class PaymentApiController extends Controller
     public function getCurrentUrl()
     {
         return  $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
+    }
+
+    public function verify($transactionId)
+    {
+
+        if (!empty($transactionId)) {
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://api-checkout.cinetpay.com/v2/payment/check',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => '{
+                  "transaction_id": "' . $transactionId . '",
+                  "site_id": "' . $this->marchand["site_id"] . '",
+                  "apikey" : "' . $this->marchand["apikey"] . '"
+
+              }',
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json'
+                ),
+            ));
+
+            $response = curl_exec($curl);
+
+            $err = curl_error($curl);
+            curl_close($curl);
+            if ($err) {
+                return response()->json([
+                    "message" => $err
+                ], 404);
+                //throw new Exception("Error :" . $err);
+            } else {
+                return response()->json($response);
+            }
+        } else {
+            echo "Veuillez renseigner l'id de la transaction";
+        }
     }
 }
