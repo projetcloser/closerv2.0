@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('transaction_id');
             $table->longText('request_result');
             $table->longText('form_data');
-            $table->longText('check_result');
+            $table->longText('check_result')->nullable();
             $table->string('status')->default("CREATED");
             $table->boolean('open_close')->default(0);
             $table->timestamps();

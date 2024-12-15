@@ -22,7 +22,8 @@ class PaymentApiController extends Controller
      */
     public function index()
     {
-        return view('payment');
+        $payloads = PaymentPayload::where('open_close', '!=', 1)->get();
+        return response()->json($payloads);
     }
 
     public function action(Request $req)
@@ -175,8 +176,12 @@ class PaymentApiController extends Controller
                 return response()->json([
                     "message" => $err
                 ], 404);
-                //throw new Exception("Error :" . $err);
             } else {
+                $payload = PaymentPayload::where('transaction_id', $transactionId)->first();
+                $payload->update([
+                    "status" => json_decode($response, true)['message'],
+                    "check_result" => $response
+                ]);
                 return response()->json($response);
             }
         } else {
