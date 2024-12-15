@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\API\CashflowController;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,10 +15,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call(CountrySeeder::class);
+        $this->call(CitySeeder::class);
+        $this->call(CompaniesSeeder::class);
+        $this->call(GroupsSeeder::class);
+        $this->call(MembersSeeder::class);
+        $this->call(MemberAcademicStatesSeeder::class);
+        $this->call(StampsSeeder::class);
+        $this->call(StaffSeeder::class);
+        $this->call(CashflowSeeder::class);
+        $this->call(CotisationSeeder::class);
+        $this->call(PersonalCertificateSeeder::class);
+//        User::factory()->create([
+//            'name' => 'Test User',
+//            'email' => 'test@example.com',
+//        ]);
     }
 }
