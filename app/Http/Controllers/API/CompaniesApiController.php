@@ -26,7 +26,7 @@ class CompaniesApiController extends Controller
         // $company->social_reason = $request->company_name;
         $company->social_reason = $request->social_reason;
         $company->author = $request->author;
-        // $company->type = $request->type;
+        $company->company_categorie = $request->company_categorie;
         $company->company_type = $request->company_type;
         $company->email = $request->email;
         $company->nui = $request->nui;
@@ -70,6 +70,7 @@ class CompaniesApiController extends Controller
             $company->social_reason = is_null($request->social_reason) ? $company->social_reason : $request->social_reason;
             $company->author = is_null($request->author) ? $company->author : $request->author;
             $company->company_type = is_null($request->company_type) ? $company->company_type : $request->company_type;
+            $company->company_categorie = is_null($request->company_categorie) ? $company->company_categorie : $request->company_categorie;
             $company->email = is_null($request->email) ? $company->email : $request->email;
             $company->nui = is_null($request->nui) ? $company->nui : $request->nui;
             $company->country_id = is_null($request->country_id) ? $company->country_id : $request->country_id;

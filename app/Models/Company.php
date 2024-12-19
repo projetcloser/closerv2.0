@@ -25,7 +25,7 @@ class Company extends Model
 {
     use HasFactory;
     protected $table = 'companies';
-    protected $fillable = ['social_reason', 'author', 'phone', 'nui', 'country_id', 'city_id', 'contact_person', 'contact_person_phone', 'company_type', 'neighborhood','email'];
+    protected $fillable = ['social_reason', 'author', 'phone','company_categorie', 'nui', 'country_id', 'city_id', 'contact_person', 'contact_person_phone', 'company_type', 'neighborhood','email'];
 
     public function country()
     {

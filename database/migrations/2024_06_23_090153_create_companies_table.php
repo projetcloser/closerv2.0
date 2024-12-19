@@ -16,6 +16,7 @@ return new class extends Migration
             // remplacer company_name par social_reason
             $table->string('social_reason');
             $table->enum('company_type', ['PUBLIC', 'PRIVEE']);
+            $table->enum('company_categorie', ['BET', 'Entreprise']);
             $table->string('email')->nullable();
             $table->string('nui');
             $table->foreignId('country_id')->constrained('countries')->noActionOnDelete();
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->string('contact_person');
             $table->string('contact_person_phone');
             $table->string('author')->nullable();
-            $table->boolean('open_close')->default(0);      
+            $table->boolean('open_close')->default(0);
             $table->timestamps();
         });
 
