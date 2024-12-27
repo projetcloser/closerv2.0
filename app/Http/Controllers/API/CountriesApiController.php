@@ -18,6 +18,29 @@ class CountriesApiController extends Controller
         return response()->json($countries);
     }
 
+    public function search(Request $request)
+    {
+        $query = Country::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%$keyword%");
+
+            });
+        }
+
+
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
 
     /**
      * Display a listing of cities from a country.

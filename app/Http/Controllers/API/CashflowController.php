@@ -16,6 +16,30 @@ class CashflowController extends Controller
         return response()->json($cashflows);
     }
 
+    public function search(Request $request)
+    {
+        $query = Cashflow::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('code', 'like', "%$keyword%")
+                ->orWhere('name', 'like', "%$keyword%")
+                ->orWhere('balance', 'like', "%$keyword%");
+                // ->orWhere('phone', 'like', "%$keyword%")
+                // ->orWhere('contact_person', 'like', "%$keyword%")
+                // ->orWhere('contact_person_phone', 'like', "%$keyword%");
+            });
+        }
+      // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
     // Récupérer un cashflow spécifique
     public function show($id)
     {

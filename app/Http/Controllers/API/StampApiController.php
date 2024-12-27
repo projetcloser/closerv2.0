@@ -18,6 +18,41 @@ class StampApiController extends Controller
         return response()->json($stamps);
     }
 
+    public function search(Request $request)
+    {
+        $query = Stamp::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('author', 'like', "%$keyword%")
+                ->orWhere('phone', 'like', "%$keyword%")
+                ->orWhere('year', 'like', "%$keyword%")
+                ->orWhere('receipt_number', 'like', "%$keyword%")
+                ->orWhere('member_id', 'like', "%$keyword%")
+                ->orWhere('city_id', 'like', "%$keyword%");
+            });
+        }
+
+        // Rechercher par statut (optionnel)
+        if ($request->filled('statut')) {
+            $query->where('statut', $request->input('statut'));
+        }
+
+        // Rechercher par genre (optionnel)
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

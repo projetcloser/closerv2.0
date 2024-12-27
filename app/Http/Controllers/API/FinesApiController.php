@@ -17,6 +17,33 @@ class FinesApiController extends Controller
         return response()->json($fines);
     }
 
+    public function search(Request $request)
+    {
+        $query = Fine::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('object', 'like', "%$keyword%")
+                ->orWhere('amount', 'like', "%$keyword%")
+                ->orWhere('member_id', 'like', "%$keyword%")
+                // ->orWhere('start_date', 'like', "%$keyword%")
+                // ->orWhere('end_date', 'like', "%$keyword%")
+                ->orWhere('author', 'like', "%$keyword%");
+            });
+        }
+
+
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
