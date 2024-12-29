@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('amount')->default(60000);
             $table->integer('pay');
             $table->foreignId('staff_id')->constrained('staffs')->noActionOnDelete();
-            $table->string('status')->default('OK');
+            $table->tinyInteger('status')->default(1)->comment("1: non payé, 2: initier, 3: payé");
             $table->string('author');
             $table->boolean('open_close')->default(0);
             $table->timestamps();

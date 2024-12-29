@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('payment_payloads', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained('members')->noActionOnDelete();
+            $table->bigInteger('company_attestation_id')->nullable();
+            $table->bigInteger('cotisation_id')->nullable();
             $table->string('transaction_id');
             $table->longText('request_result');
             $table->longText('form_data');
