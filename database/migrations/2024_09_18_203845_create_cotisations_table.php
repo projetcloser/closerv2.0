@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('pay');
             // $table->foreignId('staff_id')->constrained('staffs')->noActionOnDelete();
             // $table->foreignId('staff_id')->constrained('staffs')->noActionOnDelete();
-            $table->string('status')->default('unpaid')->comment("unpaid (default),   et  - paid");
+            $table->tinyInteger('status')->default(1)->comment("1: non payé, 2: initier, 3: payé");
             $table->string('author');
             $table->boolean('open_close')->default(0);
             $table->timestamps();
@@ -29,11 +29,11 @@ return new class extends Migration
 
         Schema::create('personal_certificates', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('cashflow_id')->constrained('cashflows')->default(1)->noActionOnDelete();  
+            // $table->foreignId('cashflow_id')->constrained('cashflows')->default(1)->noActionOnDelete();
             $table->foreignId('member_id')->constrained('members')->noActionOnDelete();
             $table->string('ref_dem_part');
             $table->integer('amount')->default(0);
-            $table->tinyInteger('status')->default(1)->comment("1 - non payé (default), 2 - initier et 3 - payé");
+            $table->tinyInteger('status')->default(3)->comment("1 - non payé (default), 2 - initier et 3 - payé");
             $table->date('certification_date')->default(now());
             $table->string('object');
             $table->string('author');

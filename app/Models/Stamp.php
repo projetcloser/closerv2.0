@@ -19,7 +19,7 @@ class Stamp extends Model
 {
     use HasFactory;
     protected $table = 'stamps';
-    protected $fillable = ['member_id', 'receipt_number', 'author', 'city_id', 'phone', 'year'];
+    protected $fillable = ['member_id', 'receipt_number', 'author', 'city_id', 'status', 'phone', 'year'];
     // , 'step'
 
     public function city()

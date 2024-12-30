@@ -27,7 +27,7 @@ class StampApiController extends Controller
             $stamp = new Stamp();
             $stamp->member_id = $request->member_id;
             $stamp->receipt_number = $request->receipt_number;
-            // $stamp->step = $request->step;
+            $stamp->status = $request->status;
             $stamp->author = $request->author;
             $stamp->city_id = $request->city_id;
             $stamp->phone = $request->phone;
@@ -37,19 +37,19 @@ class StampApiController extends Controller
             return response()->json([
                 "message" => "Stamp added"
             ], 201);
-    } catch (\Illuminate\Validation\ValidationException $e) {
-        // Enregistrer les erreurs de validation dans les logs
-        Log::error('Erreur de validation lors de la création de la cotisation :', [
-            'erreurs' => $e->errors()
-        ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Enregistrer les erreurs de validation dans les logs
+            Log::error('Erreur de validation lors de la création de la cotisation :', [
+                'erreurs' => $e->errors()
+            ]);
 
-        return response()->json(['errors' => $e->errors()], 422);
-    } catch (\Exception $e) {
-        // Enregistrer d'autres types d'erreurs dans les logs
-        Log::error('Erreur inattendue lors de la création de la cotisation : ' . $e->getMessage());
+            return response()->json(['errors' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            // Enregistrer d'autres types d'erreurs dans les logs
+            Log::error('Erreur inattendue lors de la création de la cotisation : ' . $e->getMessage());
 
-        return response()->json(['message' => 'Erreur serveur'], 500);
-    }
+            return response()->json(['message' => 'Erreur serveur'], 500);
+        }
     }
 
     /**
