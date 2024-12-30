@@ -28,6 +28,47 @@ class CotisationController extends Controller
     // }
 
     // Récupérer une cotisation spécifique
+
+    public function search(Request $request)
+    {
+        $query = Cotisation::query();
+
+        // Recherche par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('pay_year', 'like', "%$keyword%")
+                  ->orWhere('ref_ing_cost', 'like', "%$keyword%")
+                  ->orWhere('amount', 'like', "%$keyword%")
+                  ->orWhere('pay', 'like', "%$keyword%");
+            });
+        }
+
+        // Recherche par membre (clé étrangère)
+        if ($request->filled('member_id')) {
+            $query->where('member_id', $request->input('member_id'));
+        }
+
+        // Recherche par cashflow (clé étrangère)
+        if ($request->filled('cashflow_id')) {
+            $query->where('cashflow_id', $request->input('cashflow_id'));
+        }
+
+        // Recherche par statut (optionnel)
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        // Recherche par état open/close
+        if ($request->filled('open_close')) {
+            $query->where('open_close', $request->input('open_close'));
+        }
+
+        // Charger les relations nécessaires pour les clés étrangères
+        $cotisations = $query->with(['member', 'cashflow'])->get();
+
+        return response()->json($cotisations);
+    }
     public function show($id)
     {
         $cotisation = Cotisation::find($id);

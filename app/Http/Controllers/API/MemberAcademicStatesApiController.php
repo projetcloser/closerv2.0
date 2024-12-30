@@ -17,7 +17,48 @@ class MemberAcademicStatesApiController extends Controller
         return response()->json($academicStates);
     }
 
-    
+    public function search(Request $request)
+    {
+        $query = MemberAcademicState::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('lastname', 'like', "%$keyword%")
+                ->orWhere('firstname', 'like', "%$keyword%")
+                ->orWhere('username', 'like', "%$keyword%")
+                ->orWhere('member_id', 'like', "%$keyword%")
+                ->orWhere('email', 'like', "%$keyword%")
+                ->orWhere('address', 'like', "%$keyword%")
+                ->orWhere('country_id', 'like', "%$keyword%")
+                ->orWhere('phone', 'like', "%$keyword%")
+                ->orWhere('email', 'like', "%$keyword%")
+                ->orWhere('birthday', 'like', "%$keyword%");
+            });
+        }
+
+
+         // Rechercher par statut (optionnel)
+         if ($request->filled('statut')) {
+            $query->where('statut', $request->input('statut'));
+        }
+
+        // Rechercher par genre (optionnel)
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      */

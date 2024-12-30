@@ -19,6 +19,30 @@ class EventsApiController extends Controller
         return response()->json($events);
     }
 
+    public function search(Request $request)
+    {
+        $query = Event::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('title', 'like', "%$keyword%")
+                ->orWhere('participants', 'like', "%$keyword%")
+                ->orWhere('price', 'like', "%$keyword%")
+                ->orWhere('start_date', 'like', "%$keyword%")
+                ->orWhere('end_date', 'like', "%$keyword%")
+                ->orWhere('author', 'like', "%$keyword%");
+            });
+        }
+      // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

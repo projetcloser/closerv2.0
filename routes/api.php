@@ -48,6 +48,7 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::get('academic-states/{id}', [MemberAcademicStatesApiController::class, 'show']);
     Route::get('member/{id}', [MembersApiController::class, 'show']);
     Route::get('/search', [MembersApiController::class, 'search']);
+    Route::get('/search', [MemberAcademicStatesApiController::class, 'search']);
     // récupérer la liste des dettes
     Route::get('/debt/{memberId}', [DebtsApiController::class, 'indexOfOneMember']);
 });
@@ -63,6 +64,7 @@ Route::prefix('/payment')->namespace('Payment')->group(function () {
 Route::prefix('/companies')->namespace('Companies')->group(function () {
     Route::get('/', [CompaniesApiController::class, 'index']); // Les routes "companies.*" de l'API
     Route::get('/company/{id}', [CompaniesApiController::class, 'show']);
+    Route::get('/search', [CompaniesApiController::class, 'search']);
     Route::get('attestations', [CompanyAttestationApiController::class, 'index']);
     Route::get('attestations/{id}', [CompanyAttestationApiController::class, 'show']);
     Route::get('attestations/search', [CompanyAttestationApiController::class, 'search']);
@@ -72,6 +74,7 @@ Route::prefix('/companies')->namespace('Companies')->group(function () {
 
 Route::get('stamps', [StampApiController::class, 'index']);
 Route::get('stamps/{id}', [StampApiController::class, 'show']);
+Route::get('/search', [StampApiController::class, 'search']);
 
 
 
@@ -95,6 +98,7 @@ Route::prefix('cashflows')->group(function () {
 
     // Récupérer un cashflow spécifique
     Route::get('/{id}', [CashflowController::class, 'show']);
+    Route::get('/search', [CashflowController::class, 'search']);
 });
 
 
@@ -115,6 +119,7 @@ Route::prefix('cotisations')->group(function () {
 
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [CotisationController::class, 'show']);
+    Route::get('/search', [CotisationController::class, 'search']);
 });
 
 
@@ -125,6 +130,7 @@ Route::prefix('personal-certificates')->group(function () {
 
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [PersonalCertificateController::class, 'show']);
+    Route::get('/search', [PersonalCertificateController::class, 'search']);
 });
 
 
@@ -135,6 +141,7 @@ Route::prefix('events')->group(function () {
 
     // Récupérer un event spécifique
     Route::get('/{id}', [EventsApiController::class, 'show']);
+    Route::get('/search', [EventsApiController::class, 'search']);
 });
 
 
@@ -142,6 +149,7 @@ Route::prefix('events')->group(function () {
 Route::prefix('location')->group(function () {
     //Countries list
     Route::get('/countries', [CountriesApiController::class, 'index']);
+    Route::get('/search', [CountriesApiController::class, 'search']);
 
     //Cities list from a country
     Route::get('/countries/cities/{id}', [CountriesApiController::class, 'showCities']);
@@ -149,6 +157,8 @@ Route::prefix('location')->group(function () {
 
     //Cities list
     Route::get('/cities', [CitiesApiController::class, 'index']);
+
+    Route::get('/search', [CitiesApiController::class, 'search']);
 });
 
 
@@ -170,6 +180,7 @@ Route::prefix('fines')->group(function () {
 
     // Récupérer une amende spécifique
     Route::get('/{id}', [FinesApiController::class, 'show']);
+    Route::get('/search', [FinesApiController::class, 'search']);
 });
 
 
@@ -180,6 +191,7 @@ Route::prefix('debts')->group(function () {
     Route::get('/', [DebtsApiController::class, 'index']);
 
     Route::get('/{id}', [DebtsApiController::class, 'show']);
+    Route::get('/search', [DebtsApiController::class, 'search']);
 });
 
 

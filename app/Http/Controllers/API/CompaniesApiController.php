@@ -17,6 +17,42 @@ class CompaniesApiController extends Controller
         return response()->json($companies);
     }
 
+    public function search(Request $request)
+    {
+        $query = Company::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('social_reason', 'like', "%$keyword%")
+                ->orWhere('author', 'like', "%$keyword%")
+                ->orWhere('company_type', 'like', "%$keyword%")
+                ->orWhere('phone', 'like', "%$keyword%")
+                ->orWhere('contact_person', 'like', "%$keyword%")
+                ->orWhere('contact_person_phone', 'like', "%$keyword%");
+            });
+        }
+
+        // Rechercher par statut (optionnel)
+        if ($request->filled('statut')) {
+            $query->where('statut', $request->input('statut'));
+        }
+
+        // Rechercher par genre (optionnel)
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

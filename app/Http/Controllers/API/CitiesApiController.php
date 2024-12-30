@@ -17,6 +17,31 @@ class CitiesApiController extends Controller
         return response()->json($cities);
     }
 
+    public function search(Request $request)
+    {
+        $query = City::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%$keyword%");
+                // ->orWhere('author', 'like', "%$keyword%")
+                // ->orWhere('company_type', 'like', "%$keyword%")
+                // ->orWhere('phone', 'like', "%$keyword%")
+                // ->orWhere('contact_person', 'like', "%$keyword%")
+                // ->orWhere('contact_person_phone', 'like', "%$keyword%");
+            });
+        }
+            // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */

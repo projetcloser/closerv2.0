@@ -19,6 +19,33 @@ class DebtsApiController extends Controller
         return response()->json($debts);
     }
 
+    public function search(Request $request)
+    {
+        $query = Debt::query();
+
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('ref_ing_cost', 'like', "%$keyword%")
+                ->orWhere('amount', 'like', "%$keyword%")
+                ->orWhere('pay', 'like', "%$keyword%")
+                ->orWhere('author', 'like', "%$keyword%")
+                ->orWhere('status', 'like', "%$keyword%");
+                // ->orWhere('contact_person_phone', 'like', "%$keyword%");
+            });
+        }
+
+
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
+    }
+
     /**
      * Display a listing ot the resource from on member
      */
