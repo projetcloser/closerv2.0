@@ -45,11 +45,17 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::get('academic-states', [MemberAcademicStatesApiController::class, 'index']);
     Route::get('academic-states/{id}', [MemberAcademicStatesApiController::class, 'show']);
     Route::get('member/{id}', [MembersApiController::class, 'show']);
-    Route::get('/search', [MembersApiController::class, 'search']);
+
     Route::get('/search', [MemberAcademicStatesApiController::class, 'search']);
     // récupérer la liste des dettes
     Route::get('/debt/{memberId}', [DebtsApiController::class, 'indexOfOneMember']);
 });
+
+
+Route::prefix('members')->namespace('Members')->group(function () {
+    Route::get('/search', [MembersApiController::class, 'search']);
+});
+
 
 // mode de paiement OM
 Route::prefix('/payment')->namespace('Payment')->group(function () {

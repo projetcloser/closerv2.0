@@ -41,6 +41,8 @@ class MembersApiController extends Controller
             });
         }
 
+       
+
         // Rechercher par statut (optionnel)
         if ($request->filled('statut')) {
             $query->where('statut', $request->input('statut'));
