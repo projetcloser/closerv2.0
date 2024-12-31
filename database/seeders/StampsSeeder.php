@@ -20,12 +20,12 @@ class StampsSeeder extends Seeder
 
             $item->created([
                 'member_id' => 1,
-                'receipt_number' => $faker->creditCardNumber,
-                'step' => 1,
-                'author' => $faker->userName,
+                'receipt_number' => 'RC001',
+                'status' => 1,
+                'author' => 'John Doe',
                 'city_id' => 1,
-                'phone' => $faker->phoneNumber,
-                'year' => $faker->year
+                'phone' => '0788888888',
+                'year' => '2024',
             ]);
         }
     }

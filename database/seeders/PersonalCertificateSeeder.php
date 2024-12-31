@@ -30,7 +30,7 @@ class PersonalCertificateSeeder extends Seeder
                 'member_id' => $member->id,
                 'ref_dem_part' => 'N° ' . str_pad($numeroref, 4, '0', STR_PAD_LEFT) . ' / ' . $month . ' /Pdt/SG/ONIGC/' . $year,
                 'amount' => 0,
-                'status' => 1,
+                'status' => 3,
                 'author' => 'John Doe',
                 'open_close' => 0,  // Valeur par défaut
                 'certification_date' => now()->toDateString(),  // Format de date

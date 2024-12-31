@@ -18,6 +18,7 @@ use App\Http\Controllers\API\PersonalCertificateController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\StaffApiController;
 use App\Http\Controllers\API\StampApiController;
+use App\Http\Controllers\API\DashboardApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PaymentApiController;
@@ -35,6 +36,7 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 // Liste des utilisateurs
 Route::get('users', [AuthController::class, 'listUsers']);
+Route::get('/dashboard', [DashboardApiController::class, 'index']);
 
 Route::middleware('auth:api')->get('/user-info', [AuthController::class, 'getUserInfo']);
 
