@@ -275,7 +275,7 @@ Route::middleware('auth:api')->group(function () {
     // Stamps
     //    Route::get('stamps', [StampApiController::class, 'index']);
     Route::post('stamps', [StampApiController::class, 'store']);
-    Route::put('stamps/{id}', [StampApiController::class, 'update']);
+    Route::put('/stamps/{id}', [StampApiController::class, 'update']);
     Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);
 
     // Personnel

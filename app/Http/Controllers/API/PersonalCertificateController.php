@@ -16,6 +16,39 @@ class PersonalCertificateController extends Controller
         return response()->json($certificates);
     }
 
+    public function search(Request $request)
+{
+    $query = PersonalCertificate::query();
+
+    // Rechercher par mot-clé dans certains champs
+    if ($request->filled('keyword')) {
+        $keyword = $request->input('keyword');
+        $query->where(function ($q) use ($keyword) {
+            $q->where('ref_dem_part', 'like', "%$keyword%")
+              ->orWhere('firstname', 'like', "%$keyword%")
+              ->orWhere('email', 'like', "%$keyword%")
+              ->orWhere('phone', 'like', "%$keyword%");
+        });
+    }
+
+    // Rechercher par statut (optionnel)
+    if ($request->filled('statut')) {
+        $query->where('statut', $request->input('statut'));
+    }
+
+    // Rechercher par genre (optionnel)
+    if ($request->filled('gender')) {
+        $query->where('gender', $request->input('gender'));
+    }
+
+    // Ajouter d'autres filtres si nécessaire
+    // ...
+
+    $staff = $query->get();
+
+    return response()->json($staff);
+}
+
     public function show($id)
     {
         // Trouver le certificat personnel par son ID
