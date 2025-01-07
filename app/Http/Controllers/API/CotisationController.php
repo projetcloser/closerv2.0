@@ -10,6 +10,7 @@ use App\Models\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class CotisationController extends Controller
 {
@@ -20,12 +21,28 @@ class CotisationController extends Controller
         return response()->json($cotisations);
     }
 
-    //     private function generateRefIngCost()
-    // {
-    //     // Exemple simple de génération de référence
-    //     $lastId = Cotisation::max('id') + 1;
-    //     return 'RC' . str_pad($lastId, 3, '0', STR_PAD_LEFT);
-    // }
+    public function getUserCotisation()
+    {
+        // Récupérer l'utilisateur connecté avec auth()
+        $user = Auth::user();
+
+        // Vérifier si un utilisateur est connecté
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Utilisateur non authentifié'
+            ], 401);
+        }
+
+         // Récupérer les cotisations de l'utilisateur connecté
+         $cotisation = $user->cotisations; // Relation "hasMany" définie dans le modèle User  
+         
+         
+        if (!$cotisation || $cotisation->open_close == 1) {
+            return response()->json(['message' => 'Cotisation not found or closed'], Response::HTTP_NOT_FOUND);
+        }
+        return response()->json($cotisation);
+    }
 
     // Récupérer une cotisation spécifique
 

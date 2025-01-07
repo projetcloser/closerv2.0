@@ -126,6 +126,7 @@ Route::prefix('cotisations')->group(function () {
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [CotisationController::class, 'show']);
     Route::get('/search', [CotisationController::class, 'search']);
+    Route::get('/user', [CotisationController::class, 'getUserCotisation']);
 });
 
 
@@ -137,6 +138,7 @@ Route::prefix('personal-certificates')->group(function () {
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [PersonalCertificateController::class, 'show']);
     Route::get('/search', [PersonalCertificateController::class, 'search']);
+ 
 });
 
 
@@ -187,6 +189,8 @@ Route::prefix('fines')->group(function () {
     // Récupérer une amende spécifique
     Route::get('/{id}', [FinesApiController::class, 'show']);
     Route::get('/search', [FinesApiController::class, 'search']);
+    Route::get('/user', [FinesApiController::class, 'getUserAmende']);
+
 });
 
 
@@ -198,6 +202,7 @@ Route::prefix('debts')->group(function () {
 
     Route::get('/{id}', [DebtsApiController::class, 'show']);
     Route::get('/search', [DebtsApiController::class, 'search']);
+    Route::get('/user', [DebtsApiController::class, 'getUserDette']);
 });
 
 

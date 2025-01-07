@@ -30,5 +30,11 @@ class Member extends Model
     use HasFactory;
     protected $table = 'members';
     protected $fillable = ['matricule', 'lastname', 'firstname', 'email', 'order_number', 'phone', 'phone_2', 'folder', 'picture', 'debt', 'gender', 'city_id', 'group_id','author'];
+
+    
+    public function cotisations()
+    {
+        return $this->hasMany(Cotisation::class);
+    }
 }
 
