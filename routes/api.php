@@ -47,11 +47,17 @@ Route::prefix('/members')->namespace('Members')->group(function () {
     Route::get('academic-states', [MemberAcademicStatesApiController::class, 'index']);
     Route::get('academic-states/{id}', [MemberAcademicStatesApiController::class, 'show']);
     Route::get('member/{id}', [MembersApiController::class, 'show']);
-    Route::get('/search', [MembersApiController::class, 'search']);
+
     Route::get('/search', [MemberAcademicStatesApiController::class, 'search']);
     // récupérer la liste des dettes
     Route::get('/debt/{memberId}', [DebtsApiController::class, 'indexOfOneMember']);
 });
+
+
+Route::prefix('members')->namespace('Members')->group(function () {
+    Route::get('/search', [MembersApiController::class, 'search']);
+});
+
 
 // mode de paiement OM
 Route::prefix('/payment')->namespace('Payment')->group(function () {
@@ -121,6 +127,7 @@ Route::prefix('cotisations')->group(function () {
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [CotisationController::class, 'show']);
     Route::get('/search', [CotisationController::class, 'search']);
+    Route::get('/user', [CotisationController::class, 'getUserCotisation']);
 });
 
 
@@ -132,6 +139,7 @@ Route::prefix('personal-certificates')->group(function () {
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [PersonalCertificateController::class, 'show']);
     Route::get('/search', [PersonalCertificateController::class, 'search']);
+ 
 });
 
 
@@ -182,6 +190,8 @@ Route::prefix('fines')->group(function () {
     // Récupérer une amende spécifique
     Route::get('/{id}', [FinesApiController::class, 'show']);
     Route::get('/search', [FinesApiController::class, 'search']);
+    Route::get('/user', [FinesApiController::class, 'getUserAmende']);
+
 });
 
 
@@ -193,6 +203,7 @@ Route::prefix('debts')->group(function () {
 
     Route::get('/{id}', [DebtsApiController::class, 'show']);
     Route::get('/search', [DebtsApiController::class, 'search']);
+    Route::get('/user', [DebtsApiController::class, 'getUserDette']);
 });
 
 
@@ -270,7 +281,7 @@ Route::middleware('auth:api')->group(function () {
     // Stamps
     //    Route::get('stamps', [StampApiController::class, 'index']);
     Route::post('stamps', [StampApiController::class, 'store']);
-    Route::put('stamps/{id}', [StampApiController::class, 'update']);
+    Route::put('/stamps/{id}', [StampApiController::class, 'update']);
     Route::delete('stamps/{id}', [StampApiController::class, 'destroy']);
 
     // Personnel

@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class EventsApiController extends Controller
 {
@@ -81,9 +83,31 @@ class EventsApiController extends Controller
         public function incrementParticipant($id)
     {
         try {
+
+            $userId = auth()->id(); // Récupérer l'ID de l'utilisateur connecté
+            $event = Event::findOrFail($id);
+
+            // Vérifier si l'utilisateur a déjà participé
+            $alreadyParticipated = DB::table('event_participants')
+                ->where('event_id', $id)
+                ->where('user_id', $userId)
+                ->exists();
+
+            if ($alreadyParticipated) {
+                return response()->json(['message' => 'Vous avez déjà participé.'], 403);
+            }
+
             $evenement = Event::findOrFail($id);
             $evenement->participants += 1;
             $evenement->save();
+
+              // Enregistrer la participation
+            DB::table('event_participants')->insert([
+                'event_id' => $id,
+                'user_id' => $userId,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
         return response()->json($evenement, 200);
 
@@ -106,17 +130,31 @@ class EventsApiController extends Controller
     {
         try {
             $evenement = Event::findOrFail($id);
-            // $userId = Auth::id();
+            $userId = auth()->id(); // Récupère l'utilisateur connecté
 
             // Vérifie si l'utilisateur a participé
-            // if (!$evenement->participants()->where('user_id', $userId)->exists()) {
-            //     return response()->json(['error' => 'Vous ne participez pas à cet événement'], 400);
-            // }
+            $alreadyParticipated = DB::table('event_participants')
+                ->where('event_id', $id)
+                ->where('user_id', $userId)
+                ->exists();
 
-            // Retire la participation
-            // $evenement->participants()->detach($userId);
+            if (!$alreadyParticipated) {
+                return response()->json(['message' => 'Vous ne participez pas à cet événement'], 403);
+            }
+
+             // Vérifie que les participants ne soient pas négatifs
+            if ($evenement->participants <= 0) {
+                return response()->json(['message' => 'Impossible de retirer la participation. Aucun participant.'], 400);
+            }
+
             $evenement->participants -= 1;
             $evenement->save();
+
+             // Supprime la participation de l'utilisateur
+            DB::table('event_participants')
+            ->where('event_id', $id)
+            ->where('user_id', $userId)
+            ->delete();
 
             return response()->json($evenement, 200);
         } catch (\Illuminate\Validation\ValidationException $e) {

@@ -41,4 +41,9 @@ class Cotisation extends Model
     {
         return $this->belongsTo('App\Models\Personnel', 'personnel_id')->select('id', 'lastname', 'firstname');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

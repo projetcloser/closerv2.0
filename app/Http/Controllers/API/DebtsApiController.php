@@ -19,6 +19,10 @@ class DebtsApiController extends Controller
         return response()->json($debts);
     }
 
+    public function getUserDette(){
+        
+    }
+
     public function search(Request $request)
     {
         $query = Debt::query();

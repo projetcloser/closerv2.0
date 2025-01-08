@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserRole::class)->with('roleDetails');
     }
+
+    public function cotisations()
+    {
+        return $this->hasMany(Cotisation::class);
+    }
 }

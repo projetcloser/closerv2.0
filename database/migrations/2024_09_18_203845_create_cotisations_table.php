@@ -25,6 +25,13 @@ return new class extends Migration
             $table->string('author');
             $table->boolean('open_close')->default(0);
             $table->timestamps();
+
+            // $table->unsignedBigInteger('user_id'); // Clé étrangère vers la table users
+            // // Définir la clé étrangère
+            // $table->foreign('user_id')
+            //       ->references('id')
+            //       ->on('users')
+            //       ->onDelete('cascade'); // Supprimer les contributions si l'utilisateur est supprimé
         });
 
         Schema::create('personal_certificates', function (Blueprint $table) {

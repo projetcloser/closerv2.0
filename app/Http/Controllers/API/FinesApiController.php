@@ -16,6 +16,9 @@ class FinesApiController extends Controller
         $fines = Fine::where('open_close', '!=', 1)->get();
         return response()->json($fines);
     }
+    public function getUserAmende(){
+        
+    }
 
     public function search(Request $request)
     {
