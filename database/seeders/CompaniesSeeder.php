@@ -30,6 +30,7 @@ class CompaniesSeeder extends Seeder
                 'company_type' => $strings[$typeIndex],
                 'country_id' => 1,
                 'city_id' => $cityId,
+                'company_categorie' => 'Entreprise',
                 'contact_person' => $faker->name,
                 'contact_person_phone' => $faker->phoneNumber,
                 'neighborhood' => $faker->address

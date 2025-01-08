@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cinetpay;
+use App\Models\CompanyAttestation;
+use App\Models\Cotisation;
+use App\Models\Member;
 use App\Models\PaymentPayload;
 use Exception;
 use Illuminate\Http\Request;
@@ -11,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class PaymentApiController extends Controller
 {
+
     protected $marchand = array(
         "apikey" => "4331665486718cc4a7a68d2.58982525", // Enrer votre apikey
         "site_id" => "5881950", //Entrer votre site_ID
@@ -34,6 +38,8 @@ class PaymentApiController extends Controller
                 // print_r($data);
                 // die;
                 $member_id = $data['member_id'];
+                $company_attestation_id = $data['company_attestation_id'];
+                $cotisation_id = $data['cotisation_id'];
                 $customer_name = $data['customer_name'];
                 $customer_surname = $data['customer_surname'];
                 $description = $data['description'];
@@ -105,6 +111,8 @@ class PaymentApiController extends Controller
 
             $payload = new PaymentPayload([
                 "member_id" => $member_id,
+                "company_attestation_id" => $company_attestation_id,
+                "cotisation_id" => $cotisation_id,
                 "transaction_id" => $id_transaction,
                 "form_data" => json_encode($formData),
                 "request_result" => json_encode($result),
@@ -116,6 +124,22 @@ class PaymentApiController extends Controller
 
             // enregistrer la transaction dans votre base de donnée
             $payload->save();
+
+            // on met à jour le statut de l'attestation ou cotisation
+            if (!empty($company_attestation_id)) {
+                $company_attestation = CompanyAttestation::where('id', $company_attestation_id)->first();
+                $company_attestation->update([
+                    "status" => 2
+                ]);
+            }
+
+            if (!empty($cotisation_id)) {
+                $cotisation_id = Cotisation::where('id', $cotisation_id)->first();
+                $cotisation_id->update([
+                    "status" => 2
+                ]);
+            }
+
 
             if ($result["code"] == '201') {
                 // $url = $result["data"]["payment_url"];
@@ -178,9 +202,30 @@ class PaymentApiController extends Controller
             } else {
                 $payload = PaymentPayload::where('transaction_id', $transactionId)->first();
                 $payload->update([
-                    "status" => json_decode($response, true)['status'],
+                    "status" => json_decode($response, true)['message'],
                     "check_result" => $response
                 ]);
+
+                // on met à jour le statut de l'attestation ou cotisation
+                if (!empty($payload->company_attestation_id)) {
+                    $company_attestation = CompanyAttestation::where('id', $payload->company_attestation_id)->first();
+                    $company_attestation->update([
+                        "status" => 3
+                    ]);
+                }
+
+                if (!empty($payload->cotisation_id)) {
+                    $cotisation_id = Cotisation::where('id', $payload->cotisation_id)->first();
+                    $cotisation_id = Cotisation::where('id', $payload->cotisation_id)->first();
+                    $cotisation_id->update([
+                        "status" => 3
+                    ]);
+
+                    $Member_id = Member::where('id', $cotisation_id->member_id)->first();
+                    $Member_id->update([
+                        "debt" => 0
+                    ]);
+                }
                 return response()->json($response);
             }
         } else {

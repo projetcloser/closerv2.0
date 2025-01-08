@@ -66,6 +66,7 @@ Route::prefix('/companies')->namespace('Companies')->group(function () {
     Route::get('/company/{id}', [CompaniesApiController::class, 'show']);
     Route::get('/search', [CompaniesApiController::class, 'search']);
     Route::get('attestations', [CompanyAttestationApiController::class, 'index']);
+    Route::get('attestations/success', [CompanyAttestationApiController::class, 'GetAttestBuy']);
     Route::get('attestations/{id}', [CompanyAttestationApiController::class, 'show']);
     Route::get('attestations/search', [CompanyAttestationApiController::class, 'search']);
 });

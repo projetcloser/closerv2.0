@@ -14,7 +14,19 @@ class CompanyAttestationApiController extends Controller
      */
     public function index()
     {
-        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)->get();
+        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)
+            ->where('status', '!=', 3)
+            ->get();
+
+        return response()->json($companyAttestations);
+    }
+
+    public function GetAttestBuy()
+    {
+        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)
+            ->where('status', 3)
+            ->get();
+
         return response()->json($companyAttestations);
     }
 
@@ -27,9 +39,9 @@ class CompanyAttestationApiController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('member_id', 'like', "%$keyword%")
-                ->orWhere('company_id', 'like', "%$keyword%")
-                ->orWhere('motif', 'like', "%$keyword%")
-                ->orWhere('payment_amount', 'like', "%$keyword%");
+                    ->orWhere('company_id', 'like', "%$keyword%")
+                    ->orWhere('motif', 'like', "%$keyword%")
+                    ->orWhere('payment_amount', 'like', "%$keyword%");
             });
         }
 
@@ -83,7 +95,6 @@ class CompanyAttestationApiController extends Controller
             return response()->json([
                 "message" => "Company Attestation added"
             ], 201);
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Enregistrer les erreurs de validation dans les logs
             Log::error('Erreur de validation lors de la création de l attestation d\'entreprise :', [
