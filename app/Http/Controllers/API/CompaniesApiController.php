@@ -13,7 +13,7 @@ class CompaniesApiController extends Controller
      */
     public function index()
     {
-        $companies = Company::where('open_close', '!=', 1)->get();
+        $companies = Company::where('open_close', '!=', 1)->paginate(10);
         return response()->json($companies);
     }
 

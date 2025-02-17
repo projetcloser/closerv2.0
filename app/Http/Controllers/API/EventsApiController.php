@@ -17,7 +17,7 @@ class EventsApiController extends Controller
      */
     public function index()
     {
-        $events = Event::where('open_close', '!=', 1)->get();
+        $events = Event::where('open_close', '!=', 1)->paginate(10);
         return response()->json($events);
     }
 
@@ -30,19 +30,18 @@ class EventsApiController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('title', 'like', "%$keyword%")
+                ->orWhere('place', 'like', "%$keyword%")
                 ->orWhere('participants', 'like', "%$keyword%")
                 ->orWhere('price', 'like', "%$keyword%")
-                ->orWhere('start_date', 'like', "%$keyword%")
                 ->orWhere('end_date', 'like', "%$keyword%")
                 ->orWhere('author', 'like', "%$keyword%");
             });
         }
-      // Ajouter d'autres filtres si nécessaire
-        // ...
 
-        $staff = $query->get();
 
-        return response()->json($staff);
+        $event = $query->get();
+
+        return response()->json($event);
     }
 
     /**

@@ -17,7 +17,7 @@ class MembersApiController extends Controller
      */
     public function index()
     {
-        $members = Member::where('open_close', '!=', 1)->get();
+        $members = Member::where('open_close', '!=', 1)->paginate(10);
         return response()->json($members);
     }
 
@@ -41,7 +41,7 @@ class MembersApiController extends Controller
             });
         }
 
-       
+
 
         // Rechercher par statut (optionnel)
         if ($request->filled('statut')) {
