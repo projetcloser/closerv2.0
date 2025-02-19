@@ -28,58 +28,60 @@ class AuthController extends Controller
             'persoId' => 'required|integer',  // id_perso
             'roleId' => 'required|integer',  // Vérifier que le roleId existe dans la table roles
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        
-         $role = DB::table('roles')->where('id', $request->roleId)->first();
-         
-          // Étape 2 : Vérifier si le matricule existe déjà
-        $existingUser = User::where('name', $request->matricule)->first();
-        
+
+        $role = DB::table('roles')->where('id', $request->roleId)->first();
+
+        // Étape 2 : Vérifier si le matricule existe déjà
+        $existingUser = User::where('username', $request->matricule)->first();
+
         if ($existingUser) {
             return response()->json(['message' => 'Un compte existe déjà avec ce matricule'], 409); // Conflict HTTP status
         }
-         
-         if($role->name == 'membre'){
-             
-                 // Étape 3 : Récupérer les champs firstname et lastname depuis la table members en fonction du persoId
+
+        if ($role->name == 'membre') {
+
+            // Étape 3 : Récupérer les champs firstname et lastname depuis la table members en fonction du persoId
             $member = DB::table('members')->where('id', $request->persoId)->first();
-    
+
             if (!$member) {
                 return response()->json(['message' => 'Aucun membre trouvé avec cet id_perso'], 404); // Not found
             }
-    
+
             $name = $member->lastname . ' ' . $member->firstname;  // Concaténer le nom complet
-            
-                   
-            $perso=$member;
-        
-         }else{
-             
-                  // Étape 3 : Récupérer les champs firstname et lastname depuis la table members en fonction du persoId
+
+
+            $perso = $member;
+        } else {
+
+            // Étape 3 : Récupérer les champs firstname et lastname depuis la table members en fonction du persoId
             $staff = DB::table('staffs')->where('id', $request->persoId)->first();
-    
+
             if (!$staff) {
                 return response()->json(['message' => 'Aucun membre trouvé avec cet id_perso'], 404); // Not found
             }
-    
+
             $name = $staff->lastname . ' ' . $staff->firstname;  // Concaténer le nom complet
-            
-            $perso=$staff;
-         }
-          // Étape 3 : Enregistrer l'utilisateur dans la table users
-         $user = User::create([
-                'name' => $name,  // Nom complet obtenu des membres
-                'username' => $request->matricule,  // Sauvegarder le matricule dans le champ username
-                'email' => $request->email,
-                'password' => Hash::make($request->password),
-                'id_perso' => $request->persoId  // id_perso
-            ]);
+
+            $perso = $staff;
+        }
+        // récupérer l'id du dernier utilisateur avec lasrt
+        $totalUser = User::latest('id')->first()->id;
+        // Étape 3 : Enregistrer l'utilisateur dans la table users
+        $user = User::create([
+            'id' => $totalUser + 1,
+            'name' => $name,  // Nom complet obtenu des membres
+            'username' => $request->matricule,  // Sauvegarder le matricule dans le champ username
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'id_perso' => $request->persoId  // id_perso
+        ]);
 
         // Générer un jeton Passport pour l'utilisateur
-       $token = $user->createToken('andy')->accessToken;
+        $token = $user->createToken('andy')->accessToken;
 
 
 
@@ -92,7 +94,7 @@ class AuthController extends Controller
             'role_id' => $request->roleId,  // roleId
         ]);
 
-      //  return response()->json(['message' => 'Utilisateur enregistré avec succès!'], 201);
+        //  return response()->json(['message' => 'Utilisateur enregistré avec succès!'], 201);
 
 
 
@@ -111,8 +113,6 @@ class AuthController extends Controller
             'role' => $role,
             'perso' => $perso,
         ], 201);
-
-
     }
 
 
@@ -162,14 +162,14 @@ class AuthController extends Controller
         // Générer un jeton Passport pour l'utilisateur
         $token = $user->createToken('andy')->accessToken;
 
-//        $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
-//            'grant_type' => 'password',
-//            'client_id' => env('PASSPORT_PASSWORD_CLIENT_ID'),
-//            'client_secret' => env('PASSPORT_PASSWORD_SECRET'),
-//            'username' => $request->email,
-//            'password' => Hash::make($request->password),
-//            'scope' => '',
-//        ]);
+        //        $response = Http::asForm()->post(env('APP_URL') . '/oauth/token', [
+        //            'grant_type' => 'password',
+        //            'client_id' => env('PASSPORT_PASSWORD_CLIENT_ID'),
+        //            'client_secret' => env('PASSPORT_PASSWORD_SECRET'),
+        //            'username' => $request->email,
+        //            'password' => Hash::make($request->password),
+        //            'scope' => '',
+        //        ]);
 
         // $user['token'] = $response->json();
 
@@ -195,8 +195,6 @@ class AuthController extends Controller
             'role' => $role,
             'perso' => $staff,
         ], 201);
-
-
     }
 
     public function login(Request $request)
@@ -205,8 +203,55 @@ class AuthController extends Controller
         $credentials = $request->only('matricule', 'password');
 
         // On vérifie si l'utilisateur existe avec le matricule et le mot de passe
-        if (Auth::attempt(['username' => $credentials['matricule'], 'password' => $credentials['password']])) {
-            $user = Auth::user();
+
+        //on récupère le mot de passe de l'utilisateur et on hash le mot de passe avec sha256
+        $passwordLast = hash('sha256', $credentials['password']);
+        //recherche de l'utilisateur dans la base de données avec le matricule et le mot de passe hashé
+        $user = User::where('username', $credentials['matricule'])->where('password', $passwordLast)->first();
+        //si l'utilisateur n'existe pas on retourne un message d'erreur
+        if (!$user) {
+
+            if (Auth::attempt(['username' => $credentials['matricule'], 'password' => $credentials['password']])) {
+                $user = Auth::user();
+
+                $perso = DB::table('staffs')
+                    ->where('id', $user->id_perso)
+                    ->first();
+
+                if (!$perso) {
+                    $perso = DB::table('members')
+                        ->where('id', $user->id_perso)
+                        ->first();
+                }
+
+                $userrole = DB::table('user_roles')->where('user_id', $user->id)->first();
+
+                //si $userrole est null alors insérer le user dans la table user_roles avec le ole_id = 1
+                if (!$userrole) {
+                    UserRole::create([
+                        'user_id' => $user->id,
+                        'role_id' => 1,  // roleId
+                    ]);
+                    $userrole = DB::table('user_roles')->where('user_id', $user->id)->first();
+                }
+
+                $role = DB::table('roles')->where('id', $userrole->role_id)->first();
+
+                if (!$role) {
+                    return response()->json(['message' => 'Aucun Role trouvé avec cet id_perso'], 404); // Not found
+                }
+
+                $token = $user->createToken('andy')->accessToken;
+
+                // Générer un token aléatoire pour l'utilisateur
+                $tokenId = Str::random(80);
+                $user->update(['remember_token' => $tokenId]);
+
+
+                // Retourner une réponse avec le token et les informations de l'utilisateur
+                return response()->json(['tokenId' => $tokenId, 'token' => $token, 'user' => $user, 'perso' => $perso, 'role' => $role], 200);
+            }
+        } else {
 
             $perso = DB::table('staffs')
                 ->where('id', $user->id_perso)
@@ -219,6 +264,15 @@ class AuthController extends Controller
             }
 
             $userrole = DB::table('user_roles')->where('user_id', $user->id)->first();
+
+            //si $userrole est null alors insérer le user dans la table user_roles avec le ole_id = 1
+            if (!$userrole) {
+                UserRole::create([
+                    'user_id' => $user->id,
+                    'role_id' => 1,  // roleId
+                ]);
+                $userrole = DB::table('user_roles')->where('user_id', $user->id)->first();
+            }
 
             $role = DB::table('roles')->where('id', $userrole->role_id)->first();
 
@@ -234,8 +288,9 @@ class AuthController extends Controller
 
 
             // Retourner une réponse avec le token et les informations de l'utilisateur
-            return response()->json(['tokenId' => $tokenId,'token' => $token, 'user' => $user, 'perso' => $perso, 'role'=> $role], 200);
+            return response()->json(['tokenId' => $tokenId, 'token' => $token, 'user' => $user, 'perso' => $perso, 'role' => $role], 200);
         }
+
 
         // Retourner une réponse Unauthorized si les informations sont incorrectes
         return response()->json(['message' => 'Unauthorized'], 401);
@@ -350,14 +405,14 @@ class AuthController extends Controller
 
         // Construire la réponse
         return response()->json([
-//            'tokenId' => $request->bearerToken(), // Token JWT
-//            'token' => $request->bearerToken(), // Vous pouvez renvoyer un autre token si nécessaire
+            //            'tokenId' => $request->bearerToken(), // Token JWT
+            //            'token' => $request->bearerToken(), // Vous pouvez renvoyer un autre token si nécessaire
             'user' => $user,
             'perso' => $perso, // Renvoie toutes les informations du personnel ou membre
             'role' => $userRole ? $userRole->role : null, // Renvoie les informations du rôle
         ]);
     }
-    
+
     public function listUsers()
     {
         $users = User::all(); // Récupère uniquement la liste des utilisateurs

@@ -15,13 +15,16 @@ class DebtsApiController extends Controller
      */
     public function index()
     {
-        $debts = Debt::where('open_close', '!=', 1)->get();
+        //afficher limit 100
+        $debts = Debt::where('open_close', '!=', 1)->limit(100)->get();
+
+
+        //$debts = Debt::where('open_close', '!=', 1)->paginate(100);
+        // $debts = Debt::where('open_close', '!=', 1)->get();
         return response()->json($debts);
     }
 
-    public function getUserDette(){
-        
-    }
+    public function getUserDette() {}
 
     public function search(Request $request)
     {
@@ -32,10 +35,10 @@ class DebtsApiController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('ref_ing_cost', 'like', "%$keyword%")
-                ->orWhere('amount', 'like', "%$keyword%")
-                ->orWhere('pay', 'like', "%$keyword%")
-                ->orWhere('author', 'like', "%$keyword%")
-                ->orWhere('status', 'like', "%$keyword%");
+                    ->orWhere('amount', 'like', "%$keyword%")
+                    ->orWhere('pay', 'like', "%$keyword%")
+                    ->orWhere('author', 'like', "%$keyword%")
+                    ->orWhere('status', 'like', "%$keyword%");
                 // ->orWhere('contact_person_phone', 'like', "%$keyword%");
             });
         }
@@ -63,7 +66,7 @@ class DebtsApiController extends Controller
      * Store a newly created resource in storage.
      */
 
-      // Calculer et enregistrer les dettes pour l'année en cours
+    // Calculer et enregistrer les dettes pour l'année en cours
     public function calculateDebts()
     {
         $currentYear = now()->year;
@@ -108,9 +111,24 @@ class DebtsApiController extends Controller
             'open_close' => 'sometimes|boolean|default:0',
         ]);
 
-        $debt = Debt::create($request->all());
+        // Vérifier si la dette existe déjà
+        $debtExists = Debt::where('member_id', $request->member_id)
+            ->where('pay_year', $request->pay_year)
+            ->where('open_close', 0)
+            ->first();
 
-        return response()->json($debt, Response::HTTP_CREATED);
+        if ($debtExists) {
+            // Mettre à jour la dette existante en ajoutant le montant payé
+            $debtExists->update([
+                'amount' => $debtExists->amount + $request->amount,
+            ]);
+
+            return response()->json($debtExists, Response::HTTP_CREATED);
+        } else {
+            // Créer une nouvelle dette
+            $debt = Debt::create($request->all());
+            return response()->json($debt, Response::HTTP_CREATED);
+        }
     }
 
     /**

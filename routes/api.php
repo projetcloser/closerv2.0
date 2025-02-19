@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\PaymentApiController;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\API\ForgotPasswordController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,6 +32,13 @@ Route::get('/user', function (Request $request) {
 Route::get('/pwd', function () {
     return Hash::make("admin1234");
 });
+
+
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink']);
+Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp']);
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
+
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
@@ -139,7 +147,6 @@ Route::prefix('personal-certificates')->group(function () {
     // Récupérer une cotisation spécifique
     Route::get('/{id}', [PersonalCertificateController::class, 'show']);
     Route::get('/search', [PersonalCertificateController::class, 'search']);
- 
 });
 
 
@@ -191,7 +198,6 @@ Route::prefix('fines')->group(function () {
     Route::get('/{id}', [FinesApiController::class, 'show']);
     Route::get('/search', [FinesApiController::class, 'search']);
     Route::get('/user', [FinesApiController::class, 'getUserAmende']);
-
 });
 
 

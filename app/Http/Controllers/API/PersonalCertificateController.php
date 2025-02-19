@@ -7,53 +7,63 @@ use App\Models\PersonalCertificate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\Response;
 use Illuminate\Support\Facades\Log;
+
 class PersonalCertificateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // Affiche uniquement les enregistrements dont open_close != 1
-        $certificates = PersonalCertificate::where('open_close', '!=', 1)->get();
-        return response()->json($certificates);
+
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
+
+        if ($idPerso && $idRole == 1) {
+            $certificates = PersonalCertificate::where('member_id', $idPerso)->where('open_close', '!=', 1)->get();
+            return response()->json($certificates);
+        } else {
+            $certificates = PersonalCertificate::where('open_close', '!=', 1)->get();
+            return response()->json($certificates);
+        }
     }
 
     public function search(Request $request)
-{
-    $query = PersonalCertificate::query();
+    {
+        $query = PersonalCertificate::query();
 
-    // Rechercher par mot-clé dans certains champs
-    if ($request->filled('keyword')) {
-        $keyword = $request->input('keyword');
-        $query->where(function ($q) use ($keyword) {
-            $q->where('ref_dem_part', 'like', "%$keyword%")
-              ->orWhere('firstname', 'like', "%$keyword%")
-              ->orWhere('email', 'like', "%$keyword%")
-              ->orWhere('phone', 'like', "%$keyword%");
-        });
+        // Rechercher par mot-clé dans certains champs
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where(function ($q) use ($keyword) {
+                $q->where('ref_dem_part', 'like', "%$keyword%")
+                    ->orWhere('firstname', 'like', "%$keyword%")
+                    ->orWhere('email', 'like', "%$keyword%")
+                    ->orWhere('phone', 'like', "%$keyword%");
+            });
+        }
+
+        // Rechercher par statut (optionnel)
+        if ($request->filled('statut')) {
+            $query->where('statut', $request->input('statut'));
+        }
+
+        // Rechercher par genre (optionnel)
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->input('gender'));
+        }
+
+        // Ajouter d'autres filtres si nécessaire
+        // ...
+
+        $staff = $query->get();
+
+        return response()->json($staff);
     }
-
-    // Rechercher par statut (optionnel)
-    if ($request->filled('statut')) {
-        $query->where('statut', $request->input('statut'));
-    }
-
-    // Rechercher par genre (optionnel)
-    if ($request->filled('gender')) {
-        $query->where('gender', $request->input('gender'));
-    }
-
-    // Ajouter d'autres filtres si nécessaire
-    // ...
-
-    $staff = $query->get();
-
-    return response()->json($staff);
-}
 
     public function show($id)
     {
         // Trouver le certificat personnel par son ID
         $personalCertificate = PersonalCertificate::findOrFail($id);
-        if (!$personalCertificate|| $personalCertificate->open_close == 1) {
+        if (!$personalCertificate || $personalCertificate->open_close == 1) {
             return response()->json(['message' => 'Cashflow not found or closed'], Response::HTTP_NOT_FOUND);
         }
         return response()->json($personalCertificate);
@@ -92,8 +102,6 @@ class PersonalCertificateController extends Controller
                 'message' => ' création de l\'attestation du personnel',
                 'body' => [],
             ]);
-
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Enregistrer les erreurs de validation dans les logs
             Log::error('Erreur de validation lors de la création du certificat du personnel :', [

@@ -12,10 +12,18 @@ class StampApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $stamps = Stamp::where('open_close', '!=', 1)->get();
-        return response()->json($stamps);
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
+
+        if ($idPerso && $idRole == 1) {
+            $stamps = Stamp::where('member_id', $idPerso)->where('open_close', '!=', 1)->get();
+            return response()->json($stamps);
+        } else {
+            $stamps = Stamp::where('open_close', '!=', 1)->get();
+            return response()->json($stamps);
+        }
     }
 
     public function search(Request $request)
@@ -27,11 +35,11 @@ class StampApiController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('author', 'like', "%$keyword%")
-                ->orWhere('phone', 'like', "%$keyword%")
-                ->orWhere('year', 'like', "%$keyword%")
-                ->orWhere('receipt_number', 'like', "%$keyword%")
-                ->orWhere('member_id', 'like', "%$keyword%")
-                ->orWhere('city_id', 'like', "%$keyword%");
+                    ->orWhere('phone', 'like', "%$keyword%")
+                    ->orWhere('year', 'like', "%$keyword%")
+                    ->orWhere('receipt_number', 'like', "%$keyword%")
+                    ->orWhere('member_id', 'like', "%$keyword%")
+                    ->orWhere('city_id', 'like', "%$keyword%");
             });
         }
 

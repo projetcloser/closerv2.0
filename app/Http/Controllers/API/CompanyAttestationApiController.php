@@ -12,22 +12,38 @@ class CompanyAttestationApiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)
-            ->where('status', '!=', 3)
-            ->get();
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
 
-        return response()->json($companyAttestations);
+        if ($idPerso && $idRole == 1) {
+
+            $companyAttestations = CompanyAttestation::where('member_id', $idPerso)->where('open_close', '!=', 1)->where('status', 1)
+                ->get();
+            return response()->json($companyAttestations);
+        } else {
+            $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)->where('status', 1)
+                ->get();
+            return response()->json($companyAttestations);
+        }
     }
 
-    public function GetAttestBuy()
+    public function GetAttestBuy(Request $request)
     {
-        $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)
-            ->where('status', 3)
-            ->get();
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
 
-        return response()->json($companyAttestations);
+        if ($idPerso && $idRole == 1) {
+
+            $companyAttestations = CompanyAttestation::where('member_id', $idPerso)->where('open_close', '!=', 1)->where('status', 3)
+                ->get();
+            return response()->json($companyAttestations);
+        } else {
+            $companyAttestations = CompanyAttestation::where('open_close', '!=', 1)->where('status', 3)
+                ->get();
+            return response()->json($companyAttestations);
+        }
     }
 
     public function search(Request $request)

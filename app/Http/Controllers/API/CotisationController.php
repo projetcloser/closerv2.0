@@ -15,10 +15,18 @@ use Illuminate\Support\Facades\Auth;
 class CotisationController extends Controller
 {
     // Récupérer toutes les cotisations différentes de 1 (open_close)
-    public function index()
+    public function index(Request $request)
     {
-        $cotisations = Cotisation::where('open_close', '!=', 1)->get();
-        return response()->json($cotisations);
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
+
+        if ($idPerso && $idRole == 1) {
+            $cotisations = Cotisation::where('member_id', $idPerso)->where('open_close', '!=', 1)->get();
+            return response()->json($cotisations);
+        } else {
+            $cotisations = Cotisation::where('open_close', '!=', 1)->get();
+            return response()->json($cotisations);
+        }
     }
 
     public function getUserCotisation()
@@ -34,10 +42,10 @@ class CotisationController extends Controller
             ], 401);
         }
 
-         // Récupérer les cotisations de l'utilisateur connecté
-         $cotisation = $user->cotisations; // Relation "hasMany" définie dans le modèle User  
-         
-         
+        // Récupérer les cotisations de l'utilisateur connecté
+        $cotisation = $user->cotisations; // Relation "hasMany" définie dans le modèle User
+
+
         if (!$cotisation || $cotisation->open_close == 1) {
             return response()->json(['message' => 'Cotisation not found or closed'], Response::HTTP_NOT_FOUND);
         }
@@ -55,9 +63,9 @@ class CotisationController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('pay_year', 'like', "%$keyword%")
-                  ->orWhere('ref_ing_cost', 'like', "%$keyword%")
-                  ->orWhere('amount', 'like', "%$keyword%")
-                  ->orWhere('pay', 'like', "%$keyword%");
+                    ->orWhere('ref_ing_cost', 'like', "%$keyword%")
+                    ->orWhere('amount', 'like', "%$keyword%")
+                    ->orWhere('pay', 'like', "%$keyword%");
             });
         }
 
@@ -153,14 +161,14 @@ class CotisationController extends Controller
         foreach ($utilisateurs as $user) {
             // Vérifie si l'utilisateur a une cotisation pour l'année en cours
             $cotisation = Cotisation::where('member_id', $user->id)
-                                    ->where('pay_year', $anneeCourante)
-                                    ->first();
+                ->where('pay_year', $anneeCourante)
+                ->first();
 
             if (!$cotisation || $cotisation->statut === 'non payé') {
                 // Vérifie si une dette existe déjà pour cette année
                 $dette = Debt::where('member_id', $user->id)
-                            ->where('pay_year', $anneeCourante)
-                            ->first();
+                    ->where('pay_year', $anneeCourante)
+                    ->first();
 
                 if ($dette) {
                     // Cumule la dette si elle existe déjà

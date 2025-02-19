@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cinetpay;
 use App\Models\CompanyAttestation;
 use App\Models\Cotisation;
+use App\Models\Fine;
 use App\Models\Member;
 use App\Models\PaymentPayload;
 use Exception;
@@ -126,19 +127,39 @@ class PaymentApiController extends Controller
             $payload->save();
 
             // on met à jour le statut de l'attestation ou cotisation
-            if (!empty($company_attestation_id)) {
+
+            if (!empty($company_attestation_id) && !empty($cotisation_id)) {
+                //update le statut de l'amende à 1
+                $fines = Fine::where('id', $company_attestation_id)->first();
+                $fines->update([
+                    "status" => 0
+                ]);
+            } elseif (!empty($company_attestation_id) && empty($cotisation_id)) {
                 $company_attestation = CompanyAttestation::where('id', $company_attestation_id)->first();
                 $company_attestation->update([
                     "status" => 2
                 ]);
-            }
-
-            if (!empty($cotisation_id)) {
+            } else {
                 $cotisation_id = Cotisation::where('id', $cotisation_id)->first();
                 $cotisation_id->update([
                     "status" => 2
                 ]);
             }
+
+
+            // if (!empty($company_attestation_id)) {
+            //     $company_attestation = CompanyAttestation::where('id', $company_attestation_id)->first();
+            //     $company_attestation->update([
+            //         "status" => 2
+            //     ]);
+            // }
+
+            // if (!empty($cotisation_id)) {
+            //     $cotisation_id = Cotisation::where('id', $cotisation_id)->first();
+            //     $cotisation_id->update([
+            //         "status" => 2
+            //     ]);
+            // }
 
 
             if ($result["code"] == '201') {
@@ -207,15 +228,18 @@ class PaymentApiController extends Controller
                 ]);
 
                 // on met à jour le statut de l'attestation ou cotisation
-                if (!empty($payload->company_attestation_id)) {
+                if (!empty($payload->company_attestation_id) && !empty($payload->cotisation_id)) {
+                    //update le statut de l'amende à 1
+                    $fines = Fine::where('id', $payload->company_attestation_id)->first();
+                    $fines->update([
+                        "status" => 1
+                    ]);
+                } elseif (!empty($payload->company_attestation_id) && empty($payload->cotisation_id)) {
                     $company_attestation = CompanyAttestation::where('id', $payload->company_attestation_id)->first();
                     $company_attestation->update([
                         "status" => 3
                     ]);
-                }
-
-                if (!empty($payload->cotisation_id)) {
-                    $cotisation_id = Cotisation::where('id', $payload->cotisation_id)->first();
+                } else {
                     $cotisation_id = Cotisation::where('id', $payload->cotisation_id)->first();
                     $cotisation_id->update([
                         "status" => 3
@@ -226,6 +250,24 @@ class PaymentApiController extends Controller
                         "debt" => 0
                     ]);
                 }
+                // if (!empty($payload->company_attestation_id)) {
+                //     $company_attestation = CompanyAttestation::where('id', $payload->company_attestation_id)->first();
+                //     $company_attestation->update([
+                //         "status" => 3
+                //     ]);
+                // }
+
+                // if (!empty($payload->cotisation_id)) {
+                //     $cotisation_id = Cotisation::where('id', $payload->cotisation_id)->first();
+                //     $cotisation_id->update([
+                //         "status" => 3
+                //     ]);
+
+                //     $Member_id = Member::where('id', $cotisation_id->member_id)->first();
+                //     $Member_id->update([
+                //         "debt" => 0
+                //     ]);
+                // }
                 return response()->json($response);
             }
         } else {

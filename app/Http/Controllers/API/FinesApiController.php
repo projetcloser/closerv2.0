@@ -6,19 +6,25 @@ use App\Models\Fine;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+
 class FinesApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $fines = Fine::where('open_close', '!=', 1)->get();
-        return response()->json($fines);
+        $idPerso = $request->query('id_perso');
+        $idRole = $request->query('id_role');
+        if ($idPerso && $idRole == 1) {
+            $fines = Fine::where('member_id', $idPerso)->where('open_close', '!=', 1)->get();
+            return response()->json($fines);
+        } else {
+            $fines = Fine::where('open_close', '!=', 1)->get();
+            return response()->json($fines);
+        }
     }
-    public function getUserAmende(){
-        
-    }
+    public function getUserAmende() {}
 
     public function search(Request $request)
     {
@@ -29,11 +35,11 @@ class FinesApiController extends Controller
             $keyword = $request->input('keyword');
             $query->where(function ($q) use ($keyword) {
                 $q->where('object', 'like', "%$keyword%")
-                ->orWhere('amount', 'like', "%$keyword%")
-                ->orWhere('member_id', 'like', "%$keyword%")
-                // ->orWhere('start_date', 'like', "%$keyword%")
-                // ->orWhere('end_date', 'like', "%$keyword%")
-                ->orWhere('author', 'like', "%$keyword%");
+                    ->orWhere('amount', 'like', "%$keyword%")
+                    ->orWhere('member_id', 'like', "%$keyword%")
+                    // ->orWhere('start_date', 'like', "%$keyword%")
+                    // ->orWhere('end_date', 'like', "%$keyword%")
+                    ->orWhere('author', 'like', "%$keyword%");
             });
         }
 
@@ -64,13 +70,13 @@ class FinesApiController extends Controller
             $fine = Fine::create($validatedData);
 
             return response()->json($fine, 201);
-         } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
             // Enregistrer les erreurs de validation dans les logs
             Log::error('Erreur de validation lors de la création de l\'annonce :', [
                 'erreurs' => $e->errors()
             ]);
 
-             return response()->json(['errors' => $e->errors()], 422);
+            return response()->json(['errors' => $e->errors()], 422);
         } catch (\Exception $e) {
             // Enregistrer d'autres types d'erreurs dans les logs
             Log::error('Erreur inattendue lors de la création de l\'annonce : ' . $e->getMessage());
@@ -123,7 +129,7 @@ class FinesApiController extends Controller
             ]);
 
             return response()->json(['errors' => $e->errors()], 422);
-         } catch (\Exception $e) {
+        } catch (\Exception $e) {
             // Enregistrer d'autres types d'erreurs dans les logs
             Log::error('Erreur inattendue lors de la création de l\'annonce : ' . $e->getMessage());
 
