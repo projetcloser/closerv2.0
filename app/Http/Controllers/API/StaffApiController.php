@@ -13,9 +13,10 @@ class StaffApiController extends Controller
     // Afficher la liste des personnels où open_close != 1
     public function index()
     {
-        $personnels = Staff::where('open_close', '!=', 1)->get();
+        $personnels = Staff::where('open_close', '!=', 1)->paginate(10);
         return response()->json($personnels);
     }
+
 
 
 
